@@ -127,8 +127,8 @@ This project is open-source and available under the **MIT License**.
 ## 📞 Contact
 For any issues or suggestions, feel free to reach out!
 
-📧 Email: harshityadav.mits@gmail.com  
-💻 GitHub: (https://github.com/harshitneversettle)
+📧 Email: harshityadav.mits@gmail.com, himani.07.ch@gmail.com  
+💻 GitHub: (https://github.com/harshitneversettle),(https://github.com/Himani7i)
 
 images
 ![image](https://github.com/user-attachments/assets/fa0953dd-dc03-4674-aea8-84b3bad12533)
