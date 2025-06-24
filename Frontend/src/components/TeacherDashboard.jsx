@@ -10,6 +10,8 @@ const TeacherDashboard = ({ username }) => {
   const [totalstudents, settotalstudents] = useState("");
   const [sessioninfo, setsessioninfo] = useState([]);
   const [uri, seturi] = useState([]);
+  const [inviteename, setinviteename] = useState([]);
+  const [guestname, setguestname] = useState([]);
   let date_in_ist = 0;
 
   const [invitee, setinvitee] = useState("");
@@ -19,7 +21,7 @@ const TeacherDashboard = ({ username }) => {
       const response = await axios.get("http://localhost:1104/get-info", {
         withCredentials: true,
       });
-      setname(response.data.name);  
+      setname(response.data.name);
       setemail(response.data.email);
       setimage(response.data.image_link);
       setsession(response.data.total_sessions);
@@ -28,28 +30,38 @@ const TeacherDashboard = ({ username }) => {
     data();
   }, []);
 
-    useEffect(() => {
-      const data = async () => {
-        const response = await axios.get(
-          "http://localhost:1104/get-upcoming-events"
-        );
-        setsessioninfo(response.data);
-        const itreatable = response.data;
-        const all_uris = itreatable.map((i) => i.uri);
-        seturi(all_uris);
-      };
-      data();
-    }, []);
+  useEffect(() => {
+    const data = async () => {
+      const response = await axios.get(
+        "http://localhost:1104/get-upcoming-events"
+      );
+      setsessioninfo(response.data);
+      const itreatable = response.data;
+      const all_uris = itreatable.map((i) => i.uri);
+      setguestname(itreatable.map((i) => i.event_guests));
+      seturi(all_uris);
+    };
+    
+    data();
+  }, []);
 
-    useEffect(() => {
-      const data = async () => {
-        const response = await axios.post("http://localhost:1104/get-invitee-name" , {
-          uris : uri
+  useEffect(() => {
+    const data = async () => {
+      const response = await axios.post(
+        "http://localhost:1104/get-invitee-name",
+        {
+          uris: uri,
+        }
+      );
+      setinviteename(
+        response.data.flat().map((i) => {
+          return i.name;
         })
-        console.log(response.data)
-      };
-      data();
-    }, [uri]);
+      );
+    };
+    
+    data();
+  }, [uri]);
 
   const stats = {
     totalSessions: session,
@@ -153,6 +165,15 @@ const TeacherDashboard = ({ username }) => {
                     <span className="text-blue-400">{i.name}</span>
                   </div>
 
+                  <div className="">
+                    <span className="text-md font-bold text-white">
+                      Name of the student :
+                    </span>{" "}
+                    <span className="text-white">
+                      {inviteename[index] ? inviteename[index] : " no name "}
+                    </span>
+                  </div>
+
                   <div className="text-sm text-gray-300">
                     {(() => {
                       const date = new Date(i.created_at);
@@ -163,6 +184,8 @@ const TeacherDashboard = ({ username }) => {
                       return `🕓 Schedule created at: ${date_in_ist}`;
                     })()}
                   </div>
+                    
+                  <div className="">Guests : { guestname[index].length > 0 ? guestname[index][0].email : " No guests"}  </div>
 
                   <div className="text-sm text-gray-300">
                     {(() => {

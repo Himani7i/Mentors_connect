@@ -409,13 +409,23 @@ app.get("/get-upcoming-events", async (req, res) => {
   res.send(events);
 });
 
-app.post("/get-invitee-name", async (req, res) => {
-  const all_uri = req.body.uris
-  const uri_id = all_uri.map((i)=>{
-    const splitting = i.split("/").reverse()[0] ;
-    return (splitting)
-  })
-  res.send(uri_id)
+app.post("/get-invitee-name", async (req, res) => { 
+  const all_uri = req.body.uris;      
+  const inviteeNames = await Promise.all(
+    all_uri.map(async (i) => {
+      const splitting = i.split("/").reverse()[0];
+      const response = await axios.get(  
+        `https://api.calendly.com/scheduled_events/${splitting}/invitees`,
+        {
+          headers: {
+            Authorization: `Bearer ${CALENDLY_API_KEY}`,
+          },
+        }
+      );
+      return (response.data.collection);
+    })
+  );
+  res.send(inviteeNames)
 });
 
 /* app.listen(port, () => {
