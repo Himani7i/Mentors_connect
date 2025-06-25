@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import mongoose, { Schema } from "mongoose";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import cors from "cors";
-import exec from "child_process";
 import { type } from "os";
 import jwt from "jsonwebtoken";
 import http from "http";
@@ -15,7 +14,7 @@ dotenv.config();
 const port = process.env.port || 3000;
 
 const app = express();
-const jwtpassword = "Titan1234";
+const jwtpassword = process.env.jwtpassword;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -38,14 +37,8 @@ app.use(
 );
 
 // connection of mongoose
-mongoose.connect(
-  "mongodb+srv://harshityadavmits:btoZL6OFVnxzz4SJ@cluster0.npmr6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-);
-
-app.get("/", (req, res) => {
-  res.send("hello");
-});
-
+const Mongoose_key = process.env.Mongoose_key;
+mongoose.connect(Mongoose_key);
 // student
 
 // signup as student
@@ -409,12 +402,12 @@ app.get("/get-upcoming-events", async (req, res) => {
   res.send(events);
 });
 
-app.post("/get-invitee-name", async (req, res) => { 
-  const all_uri = req.body.uris;      
+app.post("/get-invitee-name", async (req, res) => {
+  const all_uri = req.body.uris;
   const inviteeNames = await Promise.all(
     all_uri.map(async (i) => {
       const splitting = i.split("/").reverse()[0];
-      const response = await axios.get(  
+      const response = await axios.get(
         `https://api.calendly.com/scheduled_events/${splitting}/invitees`,
         {
           headers: {
@@ -422,10 +415,10 @@ app.post("/get-invitee-name", async (req, res) => {
           },
         }
       );
-      return (response.data.collection);
+      return response.data.collection;
     })
   );
-  res.send(inviteeNames)
+  res.send(inviteeNames);
 });
 
 /* app.listen(port, () => {

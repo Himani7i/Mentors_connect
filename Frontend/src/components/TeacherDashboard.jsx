@@ -41,7 +41,7 @@ const TeacherDashboard = ({ username }) => {
       setguestname(itreatable.map((i) => i.event_guests));
       seturi(all_uris);
     };
-    
+
     data();
   }, []);
 
@@ -59,7 +59,7 @@ const TeacherDashboard = ({ username }) => {
         })
       );
     };
-    
+
     data();
   }, [uri]);
 
@@ -174,6 +174,13 @@ const TeacherDashboard = ({ username }) => {
                     </span>
                   </div>
 
+                  <div className="">
+                    Guests :{" "}
+                    {guestname[index].length > 0
+                      ? guestname[index][0].email
+                      : " No guests"}{" "}
+                  </div>
+
                   <div className="text-sm text-gray-300">
                     {(() => {
                       const date = new Date(i.created_at);
@@ -184,8 +191,6 @@ const TeacherDashboard = ({ username }) => {
                       return `🕓 Schedule created at: ${date_in_ist}`;
                     })()}
                   </div>
-                    
-                  <div className="">Guests : { guestname[index].length > 0 ? guestname[index][0].email : " No guests"}  </div>
 
                   <div className="text-sm text-gray-300">
                     {(() => {
