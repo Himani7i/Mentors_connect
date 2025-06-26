@@ -132,12 +132,9 @@ For any issues or suggestions, feel free to reach out!
 
 images
 ![image]![image](https://github.com/user-attachments/assets/b48faadd-e97a-4939-940a-4b6794e3ecdc)
-
-![image](https://github.com/user-attachments/assets/45e55f23-3055-4ec7-adac-e3979c42885b)
 ![image](https://github.com/user-attachments/assets/bf75dfeb-dd62-4fa1-bfce-f2b5c9aef3f1)
 ![image]![image](https://github.com/user-attachments/assets/8c428965-f9a8-4dee-8c3f-791418618f3f)
 ![image](https://github.com/user-attachments/assets/b65b6443-9846-414a-a51a-75545afa3301)
-
 ![image](https://github.com/user-attachments/assets/96238be7-14da-4443-ab7a-8615102a890a)
 
 
