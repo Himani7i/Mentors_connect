@@ -7,8 +7,6 @@ import React, {
   useContext,
 } from "react";
 import {
-  IconArrowNarrowLeft,
-  IconArrowNarrowRight,
   IconX,
 } from "@tabler/icons-react";
 import { cn } from "../../utils/cn";
@@ -40,19 +38,6 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
     }
   };
-
-  const scrollLeft = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
-
   const handleCardClose = (index) => {
     if (carouselRef.current) {
       const cardWidth = isMobile() ? 230 : 384; // (md:w-96)
@@ -89,7 +74,6 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
           <div
             className={cn(
               "flex flex-row justify-start gap-4 pl-4",
-              // remove max-w-4xl if you want the carousel to span the full width of its container
               "mx-auto "
             )}
           >

@@ -16,6 +16,8 @@ export default function Chatbot() {
     setInput("");
     const response = await axios.post("http://localhost:1104/chat-bot" , {
         query : input ,
+    } , {
+      withCredentials : true
     })
     console.log(response)
     const result = response.data ;

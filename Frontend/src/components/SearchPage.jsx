@@ -1,11 +1,29 @@
 import React, { useEffect, useState } from "react";
 import ProfileCard from "./ProfileCard";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SearchPage = () => {
   const [mentors, setMentors] = useState([]);
+  const navigate = useNavigate() ;
 
   useEffect(() => {
+    const check_cookie = async () => {
+      const response = await axios.post(
+        "http://localhost:1104/check-cookie",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      if(response.data === true ){
+        getList() ;
+      }else {
+        navigate("/student-login")
+      }
+    };
+
     const getList = async () => {
       try {
         const response = await axios.get("http://localhost:1104/mentors");
@@ -14,7 +32,7 @@ const SearchPage = () => {
         console.error("Error fetching mentors:", error);
       }
     };
-    getList();
+    check_cookie();
   }, []);
 
   return (
@@ -39,7 +57,7 @@ const SearchPage = () => {
               email={i.email}
               profession={i.profession}
               degree={i.degree}
-              passingYear= {i.passingYear}
+              passingYear={i.passingYear}
               experience={i.experience}
               experties={i.experties}
             />

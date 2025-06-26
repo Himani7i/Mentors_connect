@@ -18,6 +18,21 @@ const Message = () => {
   const bottomRef = useRef(null);
 
   useEffect(() => {
+    const check_cookie = async () => {
+      const response = await axios.post(
+        "http://localhost:1104/check-cookie",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      if (response.data === true) {
+        fetchmessage();
+      } else {
+        navigate("/student-login");
+      }
+    };
     const fetchmessage = async () => {
       const response = await axios.get("http://localhost:1104/get-messages", {
         withCredentials: true,
@@ -25,7 +40,7 @@ const Message = () => {
 
       setMessages(response.data);
     };
-    fetchmessage();
+    check_cookie();
   }, []);
 
   useEffect(() => {
@@ -44,7 +59,7 @@ const Message = () => {
       setMessages((prev) => [...prev, message]);
     });
 
-    response();          
+    response();
   }, []);
 
   const handleSend = () => {

@@ -9,6 +9,7 @@ import http from "http";
 import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import axios from "axios";
+
 dotenv.config();
 
 const port = process.env.port || 3000;
@@ -196,11 +197,14 @@ app.post("/teacher-login", async (req, res) => {
 });
 
 // chatbot
-
 // yaha pr ai aa raha hai
+const aiMessage = mongoose.model("AiMessages", {
+  email: String,
+  prompt: String,
+  airesponse: String,
+});
 
 const myAi = new GoogleGenerativeAI("AIzaSyB_rnCww1bvBXTVNRNK87tIJlrYAylykW0");
-
 async function generateResponse(query) {
   const prompt = query;
   const model = myAi.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -209,10 +213,23 @@ async function generateResponse(query) {
 }
 app.post("/chat-bot", async (req, res) => {
   const query = req.body.query;
-  let all_query = "";
-  all_query += query + "\n";
-  const result = await generateResponse(all_query);
-  res.send(result.response.text());
+  const token = req.cookies.user_token;
+  if (token) {
+    const decode_token = jwt.decode(token);
+    const decoded_email = decode_token.email;
+    let all_query = "";
+    all_query += query + "\n";
+    const result = await generateResponse(all_query);
+    const newchat = new aiMessage({
+      email: decoded_email,
+      prompt: query,
+      airesponse: result.response.text(),
+    });
+    newchat.save();
+    res.send(result.response.text());
+  } else {
+    res.send("error");
+  }
 });
 
 // predict placement
@@ -244,11 +261,15 @@ app.get("/mentors", async (req, res) => {
 
 app.get("/get-skills", async (req, res) => {
   const token = req.cookies.user_token;
-  const decoded_token = jwt.decode(token);
-  const decoded_email = decoded_token.email;
-  const user = await Students.findOne({ email: decoded_email });
-  console.log(user);
-  res.send(user);
+  if (token) {
+    const decoded_token = jwt.decode(token);
+    const decoded_email = decoded_token.email;
+    const user = await Students.findOne({ email: decoded_email });
+    console.log(user);
+    res.send(user);
+  } else {
+    res.send("error , login first");
+  }
 });
 // schedule meet
 app.post("/schedule-meet", (req, res) => {
@@ -345,14 +366,15 @@ app.post("/info-for-message", async (req, res) => {
 app.post("/validation-for-forum", async (req, res) => {
   const token = req.cookies.user_token;
   const query = req.body.query;
-
-  const decoded_token = jwt.decode(token);
-
-  const decoded_email = decoded_token.email;
-
-  const user = await Students.findOne({ email: decoded_email });
-  if (user && query.trim() != "") {
-    res.send(true);
+  if (token) {
+    const decoded_token = jwt.decode(token);
+    const decoded_email = decoded_token.email;
+    const user = await Students.findOne({ email: decoded_email });
+    if (user && query.trim() != "") {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
   } else {
     res.send(false);
   }
@@ -419,6 +441,21 @@ app.post("/get-invitee-name", async (req, res) => {
     })
   );
   res.send(inviteeNames);
+});
+
+app.post("/check-cookie", (req, res) => {
+  const teacher_cookie = req.cookies.teacher_token;
+  const student_cookie = req.cookies.user_token;
+  teacher_cookie || student_cookie ? res.send(true) : res.send(false);
+});
+
+app.get("/check-student-cookie", (req, res) => {
+  const user_token = req.cookies.user_token;
+  if (user_token) {
+    res.send("true");
+  } else {
+    res.send("false");
+  }
 });
 
 /* app.listen(port, () => {

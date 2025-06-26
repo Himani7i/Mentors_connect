@@ -1,10 +1,53 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HoverBorderGradient } from "../components/ui/hover-border-gradient";
 import { Main_page_carousal } from "./Main_page_carousal";
+import axios from "axios";
 
 export default function MainPage() {
   const [showLogin, setShowLogin] = useState("");
+  const [showProfileSymbol, setshowProfileSymbol] = useState("");
+
+  const navItems = [
+    { title: "Our Mentors", href: "/mentors" },
+    {
+      title: "About",
+      href: "/about",
+      dropdown: [
+        { title: "Our Mission", href: "/mission" },
+        { title: "Our Vision", href: "/vision" },
+        { title: "How It Works", href: "/process" },
+      ],
+    },
+    { title: "Discussion Forum", href: "/discussion-forum" },
+    showProfileSymbol
+      ? {
+          title: <i className="bi bi-person-circle text-xl" />,
+          href: "/mentee-profile  ",
+        }
+      : {
+          title: "Login",
+          href: "#",
+          dropdown: [
+            { title: "Login as Mentor", href: "/teacher-login" },
+            { title: "Login as Mentee", href: "/student-login" },
+          ],
+        },
+  ];
+
+  useEffect(() => {
+    const cookie_check = async () => {
+      const response = await axios.get(
+        "http://localhost:1104/check-student-cookie",
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      setshowProfileSymbol(response.data);
+    };
+    cookie_check();
+  }, []);
 
   return (
     <>
@@ -53,17 +96,19 @@ export default function MainPage() {
               magnam dicta dolorem architecto? Placeat obcaecati sed commodi
               minima, eum deserunt!
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/sign-up-student">
-                <HoverBorderGradient
-                  containerClassName="rounded-full"
-                  as="button"
-                  className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x "
-                >
-                  <span>Sign up for free</span>
-                </HoverBorderGradient>
-              </Link>
-            </div>
+            {showProfileSymbol ? null : (
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/sign-up-student">
+                  <HoverBorderGradient
+                    containerClassName="rounded-full"
+                    as="button"
+                    className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x "
+                  >
+                    <span>Sign up for free</span>
+                  </HoverBorderGradient>
+                </Link>
+              </div>  
+            )}
           </div>
         </section>
 
@@ -87,28 +132,6 @@ export default function MainPage() {
     </>
   );
 }
-
-const navItems = [
-  { title: "Our Mentors", href: "/mentors" },
-  {
-    title: "About",
-    href: "/about",
-    dropdown: [
-      { title: "Our Mission", href: "/mission" },
-      { title: "Our Vision", href: "/vision" },
-      { title: "How It Works", href: "/process" },
-    ],
-  },
-  { title: "Discussion Forum", href: "/discussion-forum" },
-  {
-    title: "Login",
-    href: "#",
-    dropdown: [
-      { title: "Login as Mentor", href: "/teacher-login" },
-      { title: "Login as Mentee", href: "/student-login" },
-    ],
-  },
-];
 
 const features = [
   {

@@ -21,6 +21,7 @@ const Discussion_forum = () => {
       navigate(`/messages-${query}`);
     } else {
       alert("Error! Task failed successfully .");
+      navigate("/student-login")
     }
     console.log(response.data);
   };
