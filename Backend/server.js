@@ -407,12 +407,12 @@ app.get("/get-info", async (req, res) => {
 
 app.post("/get-upcoming-events", async (req, res) => {
   const tokens = req.body.token;
-  res.send(tokens)
-  /* const response = await axios.get(
+  console.log(tokens) ;
+  const response = await axios.get(
     "https://api.calendly.com/scheduled_events",
     {
       headers: {
-        Authorization: `Bearer ${CALENDLY_TOKEN}`,
+        Authorization: `Bearer ${tokens}`,
       },
       params: {
         user: "https://api.calendly.com/users/6a97ceaf-5953-48ef-bcde-e2609cfecb68",
@@ -423,7 +423,7 @@ app.post("/get-upcoming-events", async (req, res) => {
   );
   const events = response.data.collection;
   console.log(events);
-  res.send(events); */
+  res.send(events);
 });
 
 app.post("/get-invitee-name", async (req, res) => {

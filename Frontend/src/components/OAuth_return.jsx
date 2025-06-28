@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const OAuth_return = () => {
-  const [token, settoken] = useState("");
+  let token = "" ;
   let modifiedcode = "";
   useEffect(() => {
     const code = window.location.search;
@@ -15,14 +15,14 @@ const OAuth_return = () => {
           withCredentials: true,
         }
       );
-      settoken(response.data.access_token);
-      console.log(response.data.access_token);
-      newdata(token);
+      token = (response.data.access_token);
+       newdata()
+      
     };
     data();
   }, []);
 
-  async function newdata(token) {
+  async function newdata() {
     const response2 = await axios.post(
       "http://localhost:1104/get-upcoming-events",
       { token },
