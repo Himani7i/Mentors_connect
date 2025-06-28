@@ -17,6 +17,14 @@ const TeacherDashboard = ({ username }) => {
   const [invitee, setinvitee] = useState("");
 
   useEffect(() => {
+    const client_id = "SB89ab0H8j1KN6SyrR7dY8C2yBOdvILuLvPbFoDrd_k";
+    const redirectUri = "http://localhost:5173/auth/callback"; 
+    const responseType = "code";
+    //const oauthUrl = `https://auth.calendly.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    window.location.href = `https://auth.calendly.com/oauth/authorize?client_id=${client_id}&response_type=${responseType}&redirect_uri=${redirectUri}`;
+  }, []);
+
+  useEffect(() => {
     const data = async () => {
       const response = await axios.get("http://localhost:1104/get-info", {
         withCredentials: true,
@@ -30,7 +38,7 @@ const TeacherDashboard = ({ username }) => {
     data();
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const data = async () => {
       const response = await axios.get(
         "http://localhost:1104/get-upcoming-events"
@@ -43,7 +51,7 @@ const TeacherDashboard = ({ username }) => {
     };
 
     data();
-  }, []);
+  }, []); */
 
   useEffect(() => {
     const data = async () => {

@@ -27,9 +27,13 @@ const DummyContent1 = () => {
       >
         <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl mx-auto">
           <span className="font-bold text-neutral-700 dark:text-neutral-200">
-            The Smart Calendar Booking system is designed to streamline and automate the process of scheduling meetings and events
+            Mentor Connect allows students to easily explore and connect with
+            experienced mentors across various domains.
           </span>{" "}
-           It leverages intelligent algorithms to find optimal time slots by analyzing participants’ availability, preferences, and time zones. The core idea is to reduce the back-and-forth communication traditionally involved in booking, thus saving time and increasing productivity. 
+          The platform displays detailed mentor profiles including profession,
+          skills, and areas of expertise. This ensures mentees can make informed
+          decisions when seeking guidance, fostering a more personalized and
+          productive mentorship experience.
         </p>
         <img
           src="https://assets.aceternity.com/macbook.png"
@@ -51,9 +55,13 @@ const DummyContent2 = () => {
       >
         <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl mx-auto">
           <span className="font-bold text-neutral-700 dark:text-neutral-200">
-            The Auto-transcriptions & Key Points system is built to enhance video calls by delivering real-time transcription and intelligent summarization.
+            The Role-Based Authentication system ensures a secure and tailored
+            experience for both Mentors and Mentees.
           </span>{" "}
-          Using Socket.IO, it captures live audio, transmits it instantly, and processes it through AI to generate accurate transcriptions and extract key discussion points.
+          Separate login flows and user roles allow the platform to provide
+          personalized dashboards, permissions, and interactions. Authentication
+          is handled via JWT tokens and stored securely using HTTP-only cookies
+          to prevent unauthorized access.
         </p>
         <img
           src="https://assets.aceternity.com/macbook.png"
@@ -75,11 +83,13 @@ const DummyContent3 = () => {
       >
         <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl mx-auto">
           <span className="font-bold text-neutral-700 dark:text-neutral-200">
-            The first rule of Apple club is that you boast about Apple club.
+            The Discussion Forum is built to foster meaningful interaction
+            between mentors and mentees.
           </span>{" "}
-          Keep a journal, quickly jot down a grocery list, and take amazing
-          class notes. Want to convert those notes to text? No problem.
-          Langotiya jeetu ka mara hua yaar is ready to capture every thought.
+          Users can post questions, share insights, and engage in topic-based
+          threads across various domains. This feature helps build a
+          collaborative learning environment, encourages peer-to-peer support,
+          and gives mentors a place to contribute their expertise.
         </p>
         <img
           src="https://assets.aceternity.com/macbook.png"
@@ -101,9 +111,13 @@ const DummyContent4 = () => {
       >
         <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl mx-auto">
           <span className="font-bold text-neutral-700 dark:text-neutral-200">
-            Live forums offer a space to ask questions, share ideas, and get real-time help from mentors and peers.
+            The built-in AI Assistant acts as a personal mentor, offering
+            instant responses to queries using GPT-based intelligence.
           </span>{" "}
-           They build a learning community where you not only solve problems faster but also gain deeper insights through collaboration.
+          Whether you're asking technical questions, seeking project advice, or
+          need clarification on a concept, the chatbot is available 24/7. It
+          enhances accessibility and ensures users get support even when a human
+          mentor isn't available.
         </p>
         <img
           src="https://i.ibb.co/YBpXKYrZ/Screenshot-2025-06-26-152338.png"
@@ -124,9 +138,14 @@ const DummyContent5 = () => {
       >
         <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl mx-auto">
           <span className="font-bold text-neutral-700 dark:text-neutral-200">
-            The AI-generated Career Roadmaps system personalizes learning by analyzing a user’s skills, goals, and industry trends to build a step-by-step path toward their desired career.
+            The authentication system uses JSON Web Tokens (JWT) stored in
+            HTTP-only cookies to ensure secure, role-based access across the
+            platform.
           </span>{" "}
-          Powered by AI, it recommends courses, certifications, and milestones tailored to individual progress and market demand. This ensures learners stay focused, motivated, and aligned with real-world opportunities.
+          This prevents token theft via JavaScript and enables persistent login
+          sessions for both mentors and mentees. It forms the backbone of
+          protected routes, secure chat interactions, and personalized user
+          experiences.
         </p>
         <img
           src="https://assets.aceternity.com/macbook.png"
@@ -148,11 +167,13 @@ const DummyContent6 = () => {
       >
         <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl mx-auto">
           <span className="font-bold text-neutral-700 dark:text-neutral-200">
-            The first rule of Apple club is that you boast about Apple club.
+            The application is built using Vite and Tailwind CSS, delivering a
+            modern, fast, and responsive user interface across all devices.
           </span>{" "}
-          Keep a journal, quickly jot down a grocery list, and take amazing
-          class notes. Want to convert those notes to text? No problem.
-          Langotiya jeetu ka mara hua yaar is ready to capture every thought.
+          The frontend is hosted on Vercel, while the backend is deployed
+          separately for scalability. With optimized build tools and styling
+          utilities, the platform ensures both performance and developer agility
+          during development and deployment.
         </p>
         <img
           src="https://assets.aceternity.com/macbook.png"
@@ -168,34 +189,33 @@ const DummyContent6 = () => {
 
 const data = [
   {
-        category: "Calendar",
-        title: "Smart Calendar Booking",
+    category: "Mentor Discovery",
+    title: "Browse and connect with experienced mentors",
     content: <DummyContent1 />,
   },
   {
-    category: "Video Calls & AI Summaries",
-    title: "Auto-transcriptions & key points.",
+    category: "Role-Based Authentication",
+    title: "Separate login flows for Mentors and Mentees",
     content: <DummyContent2 />,
   },
   {
-    category: "AI Mock Interviews",
-    title: "Get industry-specific feedback.",
+    category: "Discussion Forum",
+    title: "Ask questions and engage with the community",
     content: <DummyContent3 />,
   },
-
   {
-    category: "Live Discussion Forums",
-    title: "Engage with peers & mentors.",
+    category: "AI Assistant",
+    title: "Chat with an AI bot for guidance and Q&A",
     content: <DummyContent4 />,
   },
   {
-    category: "Personalized Learning Paths",
-    title: "AI-generated career roadmaps.",
+    category: "JWT & Secure Cookies",
+    title: "Authentication managed securely with tokens",
     content: <DummyContent5 />,
   },
   {
-    category: "Web3 Rewards",
-    title: "Earn tokens for participation.",
+    category: "Modern UI + Deployment",
+    title: "Responsive frontend with Vite + Tailwind, deployed via Vercel",
     content: <DummyContent6 />,
   },
 ];

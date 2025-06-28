@@ -17,6 +17,7 @@ const port = process.env.port || 3000;
 const app = express();
 const jwtpassword = process.env.jwtpassword;
 const server = http.createServer(app);
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
@@ -275,11 +276,10 @@ app.get("/get-skills", async (req, res) => {
 app.post("/schedule-meet", (req, res) => {
   const email = req.body.email;
   const meeturl = email.substring(0, email.indexOf("@"));
-  res.send(`https://calendly.com/harshityadav-mits/`);
+  res.send(`https://calendly.com/${meeturl}/`);
 });
 
 import multer from "multer";
-import { Socket } from "dgram";
 
 const storage = multer.diskStorage({
   destination: "./uploads/",
@@ -404,14 +404,15 @@ app.get("/get-info", async (req, res) => {
   res.send(information);
 });
 
-const CALENDLY_API_KEY = process.env.CALANDELY_API;
 
-app.get("/get-upcoming-events", async (req, res) => {
-  const response = await axios.get(
+app.post("/get-upcoming-events", async (req, res) => {
+  const tokens = req.body.token;
+  res.send(tokens)
+  /* const response = await axios.get(
     "https://api.calendly.com/scheduled_events",
     {
       headers: {
-        Authorization: `Bearer ${CALENDLY_API_KEY}`,
+        Authorization: `Bearer ${CALENDLY_TOKEN}`,
       },
       params: {
         user: "https://api.calendly.com/users/6a97ceaf-5953-48ef-bcde-e2609cfecb68",
@@ -421,7 +422,8 @@ app.get("/get-upcoming-events", async (req, res) => {
     }
   );
   const events = response.data.collection;
-  res.send(events);
+  console.log(events);
+  res.send(events); */
 });
 
 app.post("/get-invitee-name", async (req, res) => {
@@ -458,6 +460,49 @@ app.get("/check-student-cookie", (req, res) => {
   }
 });
 
+app.get("/check-teacher-cookie", (req, res) => {
+  const teacher_token = req.cookies.teacher_token;
+  console.log(teacher_token);
+  if (teacher_token) {
+    res.send("true");
+  } else {
+    res.send("false");
+  }
+});
+
+app.post("/get-data_OAuth", async (req, res) => {
+  const code  = req.body.code;
+  const client_id = process.env.client_id;
+  const client_secret = process.env.client_secret;
+  const redirect_uri = "http://localhost:5173/auth/callback";
+
+  try {
+    const formdata = new URLSearchParams() ;
+    formdata.append("code" , code) ;
+    formdata.append("client_id" , client_id) ;
+    formdata.append("client_secret" , client_secret) ;
+    formdata.append("redirect_uri" , redirect_uri) ;
+    formdata.append("grant_type" , "authorization_code") ;
+
+    const response = await axios.post(
+      "https://auth.calendly.com/oauth/token",
+      formdata ,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Token exchange failed:",
+      error.response?.data || error.message
+    );
+    res.status(500).json({ error: error.response?.data || "Unknown error" });
+  }
+});
 /* app.listen(port, () => {
   console.log(`hello , server is up at ${port}`);
 });

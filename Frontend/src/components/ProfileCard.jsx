@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import image from "../assets/image.jpg";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
-import { number } from "motion/react";
+import { InlineWidget } from "react-calendly";
 
 const ProfileCard = ({
   username,
@@ -19,14 +19,18 @@ const ProfileCard = ({
   const [meeturl, setmeeturl] = useState(null);
   const handlebutton = async (e) => {
     e.preventDefault();
-    /* const response = await axios.post("http://localhost:1104/schedule-meet", {
+    const response = await axios.post("http://localhost:1104/schedule-meet", {
       email,
     });
-    console.log(response.data);
-    setmeeturl(response.data.meeturl);
-    console.log(meeturl);
-    window.location.href = response.data; */
-   navigate("/schedule-meets")
+    setmeeturl(response.data);
+    console.log(meeturl)
+    /*  window.location.href = response.data; */
+
+    navigate("/schedule-meets" , {
+      state : {
+        meeting_url : response.data
+      }
+    })
   };
 
   return (
@@ -53,9 +57,7 @@ const ProfileCard = ({
           <h1 className="text-gray-300">Passing Year : {passingYear}</h1>
           <h1 className="text-gray-300">Experience : {experience}</h1>
           <h1 className="text-gray-300">Experties : {experties}</h1>
-
           <div className="flex justify-center mt-4 ">
-            
             <HoverBorderGradient
               containerClassName="rounded-full"
               as="button"
@@ -69,7 +71,7 @@ const ProfileCard = ({
           {/* meet crlo */}
         </div>
       </div>
-    </div>
+    </div>  
   );
 };
 

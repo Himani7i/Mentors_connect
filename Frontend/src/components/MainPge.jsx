@@ -7,6 +7,7 @@ import axios from "axios";
 export default function MainPage() {
   const [showLogin, setShowLogin] = useState("");
   const [showProfileSymbol, setshowProfileSymbol] = useState("");
+  const [showDashboardSymbol, setshowDashboardSymbol] = useState("");
 
   const navItems = [
     { title: "Our Mentors", href: "/mentors" },
@@ -21,9 +22,23 @@ export default function MainPage() {
     },
     { title: "Discussion Forum", href: "/discussion-forum" },
     showProfileSymbol
+      ? showProfileSymbol
+        ? {
+            title: <i className="bi bi-person-circle text-xl" />,
+            href: "/mentee-profile  ",
+          }
+        : {
+            title: "Login",
+            href: "#",
+            dropdown: [
+              { title: "Login as Mentor", href: "/teacher-login" },
+              { title: "Login as Mentee", href: "/student-login" },
+            ],
+          }
+      : showDashboardSymbol
       ? {
-          title: <i className="bi bi-person-circle text-xl" />,
-          href: "/mentee-profile  ",
+          title: "Teachers dashboard",
+          href: "/teacher-dashboard  ",
         }
       : {
           title: "Login",
@@ -45,6 +60,20 @@ export default function MainPage() {
       );
       console.log(response.data);
       setshowProfileSymbol(response.data);
+    };
+    cookie_check();
+  }, []);
+
+  useEffect(() => {
+    const cookie_check = async () => {
+      const response = await axios.get(
+        "http://localhost:1104/check-teacher-cookie",
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      setshowDashboardSymbol(response.data);
     };
     cookie_check();
   }, []);
@@ -96,7 +125,7 @@ export default function MainPage() {
               magnam dicta dolorem architecto? Placeat obcaecati sed commodi
               minima, eum deserunt!
             </p>
-            {showProfileSymbol ? null : (
+            {showProfileSymbol || showDashboardSymbol ? null : (
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/sign-up-student">
                   <HoverBorderGradient
@@ -107,7 +136,7 @@ export default function MainPage() {
                     <span>Sign up for free</span>
                   </HoverBorderGradient>
                 </Link>
-              </div>  
+              </div>
             )}
           </div>
         </section>

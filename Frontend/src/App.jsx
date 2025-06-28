@@ -16,6 +16,7 @@ import How_it_works from "./components/How_it_works";
 import Message from "./components/Message";
 import Discussion_forum from "./components/Discussion_forum";
 import Schedule_meet from "./components/Schedule_meet";
+import OAuth_return from "./components/OAuth_return";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path = "/messages-Mernstack" element=<Message /> />
           <Route path = "/discussion-forum" element=<Discussion_forum /> />
           <Route path = "/schedule-meets" element=<Schedule_meet/> />
+          <Route path = "/auth/callback" element=<OAuth_return/> />
           <Route
             path="/teacher-dashboard"
             element={<TeacherDashboard username={"Rahul"} />}
