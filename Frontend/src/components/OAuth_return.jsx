@@ -3,15 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const OAuth_return = () => {
   let modifiedcode = "";
-  const [uri, seturi] = useState([]);
-  const [info, setinfo] = useState("");
-  const [token, settoken] = useState("");
-  const [name, setname] = useState("");
-  const [email, setemail] = useState("");
-  const [image, setimage] = useState("");
-  const [session, setsession] = useState("");
-  const [totalstudents, settotalstudents] = useState("");
-
+  const [token, settoken] = useState("");   
   useEffect(() => {
     const code = window.location.search;
     modifiedcode = code.split("=")[1];
