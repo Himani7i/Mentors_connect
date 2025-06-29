@@ -404,10 +404,9 @@ app.get("/get-info", async (req, res) => {
   res.send(information);
 });
 
-
 app.post("/get-upcoming-events", async (req, res) => {
   const tokens = req.body.token;
-  console.log(tokens) ;
+  console.log(tokens);
   const response = await axios.get(
     "https://api.calendly.com/scheduled_events",
     {
@@ -427,22 +426,25 @@ app.post("/get-upcoming-events", async (req, res) => {
 });
 
 app.post("/get-invitee-name", async (req, res) => {
-  const all_uri = req.body.uris;
-  const inviteeNames = await Promise.all(
-    all_uri.map(async (i) => {
-      const splitting = i.split("/").reverse()[0];
-      const response = await axios.get(
-        `https://api.calendly.com/scheduled_events/${splitting}/invitees`,
-        {
-          headers: {
-            Authorization: `Bearer ${CALENDLY_API_KEY}`,
-          },
-        }
-      );
-      return response.data.collection;
-    })
-  );
-  res.send(inviteeNames);
+  const all_uri = req.body.uri_id;
+  const token = req.body.token;
+  if (all_uri) {
+    const inviteeNames = await Promise.all(
+      all_uri.map(async (i) => {
+        const splitting = i.split("/").reverse()[0];
+        const response = await axios.get(
+          `https://api.calendly.com/scheduled_events/${splitting}/invitees`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        return response.data.collection;
+      })
+    );
+    res.send(inviteeNames);
+  }
 });
 
 app.post("/check-cookie", (req, res) => {
@@ -471,22 +473,22 @@ app.get("/check-teacher-cookie", (req, res) => {
 });
 
 app.post("/get-data_OAuth", async (req, res) => {
-  const code  = req.body.code;
+  const code = req.body.code;
   const client_id = process.env.client_id;
   const client_secret = process.env.client_secret;
   const redirect_uri = "http://localhost:5173/auth/callback";
 
   try {
-    const formdata = new URLSearchParams() ;
-    formdata.append("code" , code) ;
-    formdata.append("client_id" , client_id) ;
-    formdata.append("client_secret" , client_secret) ;
-    formdata.append("redirect_uri" , redirect_uri) ;
-    formdata.append("grant_type" , "authorization_code") ;
+    const formdata = new URLSearchParams();
+    formdata.append("code", code);
+    formdata.append("client_id", client_id);
+    formdata.append("client_secret", client_secret);
+    formdata.append("redirect_uri", redirect_uri);
+    formdata.append("grant_type", "authorization_code");
 
     const response = await axios.post(
       "https://auth.calendly.com/oauth/token",
-      formdata ,
+      formdata,
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
