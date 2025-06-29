@@ -1,9 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const OAuth_return = () => {
+  const navigate = useNavigate();
   let modifiedcode = "";
-  const [token, settoken] = useState("");   
+  const [token, settoken] = useState("");
+  const [newresponse, setnewresponse] = useState([]);
   useEffect(() => {
     const code = window.location.search;
     modifiedcode = code.split("=")[1];
@@ -35,7 +38,6 @@ const OAuth_return = () => {
           return i.uri;
         });
         const uri_id = all_uris.map((i) => i.split("/").reverse()[0]);
-        console.log(uri_id);
         const new_response = await axios.post(
           "http://localhost:1104/get-invitee-name",
           {
@@ -46,12 +48,21 @@ const OAuth_return = () => {
             withCredentials: true,
           }
         );
-        console.log(new_response.data.flat());
+        setnewresponse(new_response.data.flat());
       }
     };
     newdata();
   }, [token]);
 
+  useEffect(() => {
+    if (newresponse.length > 0) {
+      navigate("/teacher-dashboard", {
+        state: {
+          response: newresponse,
+        },
+      });
+    }
+  }, [newresponse, navigate]);
   return <div>hello</div>;
 };
 

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const TeacherDashboard = ({ username }) => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -16,16 +17,20 @@ const TeacherDashboard = ({ username }) => {
   const [invitee, setinvitee] = useState("");
   const [data, setdata] = useState();
 
+  const location = useLocation();
   useEffect(() => {
-    if (!data) {
+    const datas = location.state ? location.state.response : null;
+    if (datas) {
+      setdata(datas);
+    } else {
       const client_id = "SB89ab0H8j1KN6SyrR7dY8C2yBOdvILuLvPbFoDrd_k";
       const redirectUri = "http://localhost:5173/auth/callback";
       const responseType = "code";
       //const oauthUrl = `https://auth.calendly.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
       window.location.href = `https://auth.calendly.com/oauth/authorize?client_id=${client_id}&response_type=${responseType}&redirect_uri=${redirectUri}`;
     }
-  }, []);
-
+  }, [location.state]);
+  console.log(data)
   useEffect(() => {
     const data = async () => {
       const response = await axios.get("http://localhost:1104/get-info", {
