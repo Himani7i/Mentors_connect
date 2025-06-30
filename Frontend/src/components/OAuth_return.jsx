@@ -26,6 +26,7 @@ const OAuth_return = () => {
       );
       settoken(response.data.access_token);
       setownerlink(response.data.owner);
+      
     };
     data();
   }, []);
@@ -50,10 +51,12 @@ const OAuth_return = () => {
       );
       const locations = events.map((event) => event.location.join_url);
       const names = events.map((event) => event.name);
+      const starttime = events.map((event) => event.start_time)
       setstarttime(startTimes);
       seteventguest(eventGuests);
       setlocation(locations);
       setname(names);
+      setstarttime(starttime) ;
       /* if (response2.data.length > 0) {
         const all_uris = response2.data.map((i, index) => i.uri);
         const uri_id = all_uris.map((i) => i.split("/").reverse()[0]);

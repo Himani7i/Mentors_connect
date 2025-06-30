@@ -127,7 +127,25 @@ const TeacherDashboard = ({ username }) => {
                     <h2 className="text-lg font-semibold text-pink-400 mb-1">
                       👤 Guest
                     </h2>
-                    <p className="text-gray-300">{data.eventguest?.[index]?.map((i , idx) => (i))}</p>
+                    <p className="text-gray-300">
+                      {data.eventguest?.[index]?.map((i, idx) => i)}
+                    </p>
+                  </div>
+
+                  <div className="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
+                    <h2 className="text-lg font-semibold text-yellow-400 mb-1">
+                      🕒 Start Time
+                    </h2>
+                    <p className="text-gray-300">
+                      {new Date(data.starttime?.[index]).toLocaleTimeString(
+                        "en-IN",
+                        {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        }
+                      )}
+                    </p>
                   </div>
                 </div>
               ))}
