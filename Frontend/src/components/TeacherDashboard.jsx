@@ -16,14 +16,15 @@ const TeacherDashboard = ({ username }) => {
   let date_in_ist = 0;
   const [invitee, setinvitee] = useState("");
   const [data, setdata] = useState([]);
-
+  const count = 0;
 
   const location = useLocation();
+
   useEffect(() => {
     const datas = location.state || null;
     if (datas) {
       setdata(datas);
-      console.log(datas)
+      console.log(datas);
     } else {
       const client_id = "SB89ab0H8j1KN6SyrR7dY8C2yBOdvILuLvPbFoDrd_k";
       const redirectUri = "http://localhost:5173/auth/callback";
@@ -37,7 +38,6 @@ const TeacherDashboard = ({ username }) => {
     }
   }, [location.state]);
 
-  console.log(`data :${data}`);
   useEffect(() => {
     const data = async () => {
       const response = await axios.get("http://localhost:1104/get-info", {
@@ -52,246 +52,90 @@ const TeacherDashboard = ({ username }) => {
     data();
   }, []);
 
-  /*   useEffect(() => {
-      const data = async () => {
-        const response = await axios.get(
-          "http://localhost:1104/get-upcoming-events"
-        );
-        setsessioninfo(response.data);
-        const itreatable = response.data;
-        const all_uris = itreatable.map((i) => i.uri);
-        setguestname(itreatable.map((i) => i.event_guests));
-        seturi(all_uris);
-      };
-
-      data();
-    }, []); */
-
-  /* useEffect(() => {
-      const data = async () => {
-        const response = await axios.post(
-          "http://localhost:1104/get-invitee-name",
-          {
-            uris: uri,
-          }
-        );
-        setinviteename(
-          response.data.flat().map((i) => {
-            return i.name;
-          })
-        );
-      };
-
-      data();
-    }, [uri]); */
-
-  const stats = {
-    totalSessions: 10,
-    totalStudents: 11,
-    avgRating: 4.8,
-    hoursThisMonth: 42,
-  };
-
-  const renderTab = () => {
-    switch (activeTab) {
-      case "overview":
-        return (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 text-black">
-            <StatCard
-              icon="📹"
-              title="Total Sessions"
-              value={stats.totalSessions}
-            />
-            <StatCard
-              icon="👥"
-              title="Total Students"
-              value={stats.totalStudents}
-            />
-            <StatCard
-              icon="🏆"
-              title="Average Rating"
-              value={stats.avgRating}
-            />
-            <StatCard
-              icon="⏳"
-              title="Hours This Month"
-              value={stats.hoursThisMonth}
-            />
-          </div>
-        );
-      case "calendar":
-        return (
-          <div className="bg-white rounded-lg shadow p-4">
-            <h3 className="font-medium text-lg mb-4">
-              Calendar & Availability
-            </h3>
-            <div className="text-center p-12 border-2 border-dashed border-gray-300 rounded-lg">
-              <p className="text-gray-500">
-                Calendar integration would be implemented here
-              </p>
-              <p className="text-sm text-gray-400 mt-2">
-                Sync with Calendly, Google Calendar, etc.
-              </p>
-            </div>
-          </div>
-        );
-      default:
-        return <div>Select a tab</div>;
-    }
-  };
-
   return (
-    /* code upload krne ke liye  */
-    <div className="flex min-h-screen bg-gray-100">
-      <div className="w-16 lg:w-64 bg-blue-900 text-white">
-        <div className="p-4 flex items-center justify-center lg:justify-start">
-          <h1 className="hidden lg:block text-xl font-bold">Mentor Connect</h1>
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-auto">
-        <header className="bg-white shadow-sm">
-          <div className="flex justify-between items-center px-4 py-3">
-            <div>
-              <h2 className="text-2xl font-semibold text-black">
-                Teacher Dashboard
-              </h2>
-              <p className="text-sm text-gray-600">
-                Welcome, <span className="font-medium text-black">{name}</span>
-              </p>
-            </div>
-            <div className="flex items-center space-x-3">
-              <img
-                src={image}
-                alt="Profile"
-                className="w-15 h-15 rounded-full object-cover border-2 border-white shadow-md"
-              />
-              <div className="flex flex-col">
-                <p className="text-base font-semibold text-gray-900 ">{name}</p>
-                <p className="text-sm  text-gray-600">{email}</p>
-              </div>
-            </div>
+    <>
+      <div className="flex bg-gray-100 ">
+        <div className="w-16 lg:w-64 bg-blue-900 text-white">
+          <div className="p-4 flex items-center justify-center lg:justify-start">
+            <h1 className="hidden lg:block text-xl font-bold">
+              Mentor Connect
+            </h1>
           </div>
-        </header>
+        </div>
+        <div className="flex-1 overflow-auto">
+          <header className="bg-white shadow-sm">
+            <div className="flex justify-between items-center px-4 py-3">
+              <div>
+                <h2 className="text-2xl font-semibold text-black">
+                  Teacher Dashboard
+                </h2>
+                <p className="text-sm text-gray-600">
+                  Welcome,{" "}
+                  <span className="font-medium text-black">{name}</span>
+                </p>
+              </div>
 
-        <div>
-          <div className="bg-[#0f172a] flex  p-6 text-black ">
-            {data.length > 0 ? (
-              data.map((i, index) => (
-                <div
-                  key={index}
-                  className="bg-[#1e293b] rounded-xl p-5 shadow-lg border border-gray-600 max-w-xl mx-auto space-y-3"
-                >
-                  <div className="text-xl font-bold text-white">
-                    📌 Event Type:{" "}
-                    <span className="text-blue-400">{i.name[index]}</span>
-                  </div>
-
-                  <div className="">
-                    <span className="text-md font-bold text-white">
-                      Name of the student :
-                    </span>{" "}
-                    {/* <span className="text-white">
-                        {inviteename[index] ? inviteename[index] : " no name "}
-                      </span> */}
-                  </div>
-
-                   <div className="">
-                      Guests :{" "}
-                      {eventGuests[index].length > 0
-                        ? eventGuests[index].email
-                        : " No guests"}{" "}
-                    </div>
-
-                  {/* <div className="text-sm text-gray-300">
-                    {(() => {
-                      const date = new Date(i.created_at);
-                      const date_in_ist = date.toLocaleString("en-IN", {
-                        timeZone: "Asia/Kolkata",
-                        hour12: true,
-                      });
-                      return `🕓 Schedule created at: ${date_in_ist}`;
-                    })()}
-                  </div>
-
-                  <div className="text-sm text-gray-300">
-                    {(() => {
-                      const date = new Date(
-                        i.event_memberships[0].buffered_start_time
-                      );
-                      const date_in_ist = date.toLocaleDateString("en-IN", {
-                        timeZone: "Asia/Kolkata",
-                        hour12: true,
-                      });
-                      return `📅 Meeting Date: ${date_in_ist}`;
-                    })()}
-                  </div>
-
-                  <div className="text-sm text-gray-300">
-                    {(() => {
-                      const date = new Date(
-                        i.event_memberships[0].buffered_start_time
-                      );
-                      const date_in_ist = date.toLocaleTimeString("en-IN", {
-                        timeZone: "Asia/Kolkata",
-                        hour12: true,
-                      });
-                      return `🕘 Start Time: ${date_in_ist}`;
-                    })()}
-                  </div>
-
-                  <div className="text-sm text-gray-300">
-                    {(() => {
-                      const date = new Date(
-                        i.event_memberships[0].buffered_end_time
-                      );
-                      const date_in_ist = date.toLocaleTimeString("en-IN", {
-                        timeZone: "Asia/Kolkata",
-                        hour12: true,
-                      });
-                      return `🕙 End Time: ${date_in_ist}`;
-                    })()}
-                  </div>
-
-                  <div className="text-sm text-gray-300">
-                    💬 Question:{" "}
-                    <span className="text-white font-medium">
-                      {i.questions_and_answers?.[0]?.answer ||
-                        "No answer available"}
-                    </span>
-                  </div>
-
-                  <div className="pt-2">
-                    {i.location?.join_url ? (
-                      <a
-                        href={i.location.join_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block px-4 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 text-sm transition"
-                      >
-                        🔗 Join Meeting
-                      </a>
-                    ) : (
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block px-4 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 text-sm transition"
-                      >
-                        No meeting link available
-                      </a>
-                    )}
-                  </div> */}
+              <div className="flex items-center space-x-3">
+                <img
+                  src={image}
+                  alt="Profile"
+                  className="w-15 h-15 rounded-full object-cover border-2 border-white shadow-md"
+                />
+                <div className="flex flex-col">
+                  <p className="text-base font-semibold text-gray-900">
+                    {name}
+                  </p>
+                  <p className="text-sm text-gray-600">{email}</p>
                 </div>
-              ))
-            ) : (
-              <div className="text-center text-gray-400 text-lg">
-                No session data found
               </div>
-            )}
+            </div>
+          </header>
+          <div className="text-black text-xl flex gap-6 bg-white rounded-xl shadow-md p-8 justify-evenly border-t-2 border-gray-300">
+            <div className="pr-6 border-r-2 border-gray-300 font-semibold text-gray-700 ">
+              👥 Total Students Registered = {totalstudents}
+            </div>
+            <div className="pr-6 border-r-2 border-gray-300 font-semibold text-gray-700">
+              ⭐ Total Ratings = 4.5/5
+            </div>
+            <div className="pr-6 font-semibold text-gray-700">
+              📅 Upcoming Meetings = {data.name?.length || 0}
+            </div>
+          </div>
+
+          <div className="text-white h-screen p-6 overflow-auto">
+            <div className="max-w-4xl mx-auto space-y-6">
+              {data.location?.map((_, index) => (
+                <div
+                  className="bg-gray-900 rounded-2xl shadow-2xl p-6 border border-gray-700 space-y-4 hover:border-blue-500 transition duration-300"
+                  key={index}
+                >
+                  <div className="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
+                    <h2 className="text-lg font-semibold text-blue-400 mb-1">
+                      📌 Event Name
+                    </h2>
+                    <p className="text-gray-300">{data.name?.[index]}</p>
+                  </div>
+
+                  <div className="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
+                    <h2 className="text-lg font-semibold text-green-400 mb-1">
+                      🔗 Location
+                    </h2>
+                    <p className="text-gray-300">{data.location?.[index]}</p>
+                  </div>
+
+                  <div className="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
+                    <h2 className="text-lg font-semibold text-pink-400 mb-1">
+                      👤 Guest
+                    </h2>
+                    <p className="text-gray-300">{data.eventguest?.[index]?.map((i , idx) => (i))}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -306,5 +150,4 @@ const StatCard = ({ icon, title, value }) => {
     </div>
   );
 };
-
 export default TeacherDashboard;

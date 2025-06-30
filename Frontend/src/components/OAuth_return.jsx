@@ -41,14 +41,15 @@ const OAuth_return = () => {
         }
       );
       const events = response2.data;
-      console.log(events);
+      console.log(events) ;
       const startTimes = events.map((event) => event.start_time);
       const eventGuests = events.map(
-        (event, index) => event.event_guests?.[index]?.email || "no email"
+        (event, index) => (
+            (event.event_guests?.map((i) => (i.email))) || ["no email"]
+        )
       );
       const locations = events.map((event) => event.location.join_url);
       const names = events.map((event) => event.name);
-
       setstarttime(startTimes);
       seteventguest(eventGuests);
       setlocation(locations);
@@ -74,13 +75,6 @@ const OAuth_return = () => {
   }, [token]);
 
   useEffect(() => {
-    console.log(` name : ${name}`);
-    console.log(location);
-    console.log(eventguest);
-    console.log(starttime);
-  }, [name, location, eventguest, starttime]);
-
-  useEffect(() => {
     if (
       name.length > 0 &&
       location.length > 0 &&
@@ -97,7 +91,7 @@ const OAuth_return = () => {
       });
     }
   }, [name, location, eventguest, starttime]);
-  return <div>hello</div>;
+  return <div className="m-auto">wait while we are fetching results</div>;
 };
 
 export default OAuth_return;
