@@ -15,22 +15,29 @@ const TeacherDashboard = ({ username }) => {
   const [guestname, setguestname] = useState([]);
   let date_in_ist = 0;
   const [invitee, setinvitee] = useState("");
-  const [data, setdata] = useState();
+  const [data, setdata] = useState([]);
+
 
   const location = useLocation();
   useEffect(() => {
-    const datas = location.state ? location.state.response : null;
+    const datas = location.state || null;
     if (datas) {
       setdata(datas);
+      console.log(datas)
     } else {
       const client_id = "SB89ab0H8j1KN6SyrR7dY8C2yBOdvILuLvPbFoDrd_k";
       const redirectUri = "http://localhost:5173/auth/callback";
       const responseType = "code";
       //const oauthUrl = `https://auth.calendly.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
-      window.location.href = `https://auth.calendly.com/oauth/authorize?client_id=${client_id}&response_type=${responseType}&redirect_uri=${redirectUri}`;
+      window.location.href =
+        `https://auth.calendly.com/oauth/authorize` +
+        `?client_id=${client_id}` +
+        `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+        `&response_type=${responseType}`;
     }
   }, [location.state]);
-  console.log(data)
+
+  console.log(`data :${data}`);
   useEffect(() => {
     const data = async () => {
       const response = await axios.get("http://localhost:1104/get-info", {
@@ -45,42 +52,42 @@ const TeacherDashboard = ({ username }) => {
     data();
   }, []);
 
-  useEffect(() => {
-    const data = async () => {
-      const response = await axios.get(
-        "http://localhost:1104/get-upcoming-events"
-      );
-      setsessioninfo(response.data);
-      const itreatable = response.data;
-      const all_uris = itreatable.map((i) => i.uri);
-      setguestname(itreatable.map((i) => i.event_guests));
-      seturi(all_uris);
-    };
+  /*   useEffect(() => {
+      const data = async () => {
+        const response = await axios.get(
+          "http://localhost:1104/get-upcoming-events"
+        );
+        setsessioninfo(response.data);
+        const itreatable = response.data;
+        const all_uris = itreatable.map((i) => i.uri);
+        setguestname(itreatable.map((i) => i.event_guests));
+        seturi(all_uris);
+      };
 
-    data();
-  }, []);
+      data();
+    }, []); */
 
-  useEffect(() => {
-    const data = async () => {
-      const response = await axios.post(
-        "http://localhost:1104/get-invitee-name",
-        {
-          uris: uri,
-        }
-      );
-      setinviteename(
-        response.data.flat().map((i) => {
-          return i.name;
-        })
-      );
-    };
+  /* useEffect(() => {
+      const data = async () => {
+        const response = await axios.post(
+          "http://localhost:1104/get-invitee-name",
+          {
+            uris: uri,
+          }
+        );
+        setinviteename(
+          response.data.flat().map((i) => {
+            return i.name;
+          })
+        );
+      };
 
-    data();
-  }, [uri]);
+      data();
+    }, [uri]); */
 
   const stats = {
-    totalSessions: session,
-    totalStudents: totalstudents,
+    totalSessions: 10,
+    totalStudents: 11,
     avgRating: 4.8,
     hoursThisMonth: 42,
   };
@@ -168,35 +175,35 @@ const TeacherDashboard = ({ username }) => {
         </header>
 
         <div>
-          <div className="bg-[#0f172a] flex  p-6 text-white ">
-            {sessioninfo.length > 0 ? (
-              sessioninfo.map((i, index) => (
+          <div className="bg-[#0f172a] flex  p-6 text-black ">
+            {data.length > 0 ? (
+              data.map((i, index) => (
                 <div
                   key={index}
                   className="bg-[#1e293b] rounded-xl p-5 shadow-lg border border-gray-600 max-w-xl mx-auto space-y-3"
                 >
                   <div className="text-xl font-bold text-white">
                     📌 Event Type:{" "}
-                    <span className="text-blue-400">{i.name}</span>
+                    <span className="text-blue-400">{i.name[index]}</span>
                   </div>
 
                   <div className="">
                     <span className="text-md font-bold text-white">
                       Name of the student :
                     </span>{" "}
-                    <span className="text-white">
-                      {inviteename[index] ? inviteename[index] : " no name "}
-                    </span>
+                    {/* <span className="text-white">
+                        {inviteename[index] ? inviteename[index] : " no name "}
+                      </span> */}
                   </div>
 
-                  <div className="">
-                    Guests :{" "}
-                    {guestname[index].length > 0
-                      ? guestname[index][0].email
-                      : " No guests"}{" "}
-                  </div>
+                   <div className="">
+                      Guests :{" "}
+                      {eventGuests[index].length > 0
+                        ? eventGuests[index].email
+                        : " No guests"}{" "}
+                    </div>
 
-                  <div className="text-sm text-gray-300">
+                  {/* <div className="text-sm text-gray-300">
                     {(() => {
                       const date = new Date(i.created_at);
                       const date_in_ist = date.toLocaleString("en-IN", {
@@ -273,7 +280,7 @@ const TeacherDashboard = ({ username }) => {
                         No meeting link available
                       </a>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               ))
             ) : (

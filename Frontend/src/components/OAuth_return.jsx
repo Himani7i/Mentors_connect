@@ -7,6 +7,12 @@ const OAuth_return = () => {
   let modifiedcode = "";
   const [token, settoken] = useState("");
   const [newresponse, setnewresponse] = useState([]);
+  const [ownerlink, setownerlink] = useState("");
+  const [starttime, setstarttime] = useState([]);
+  const [eventguest, seteventguest] = useState([]);
+  const [location, setlocation] = useState([]);
+  const [name, setname] = useState([]);
+
   useEffect(() => {
     const code = window.location.search;
     modifiedcode = code.split("=")[1];
@@ -19,6 +25,7 @@ const OAuth_return = () => {
         }
       );
       settoken(response.data.access_token);
+      setownerlink(response.data.owner);
     };
     data();
   }, []);
@@ -28,15 +35,26 @@ const OAuth_return = () => {
     const newdata = async () => {
       const response2 = await axios.post(
         "http://localhost:1104/get-upcoming-events",
-        { token },
+        { token, ownerlink },
         {
           withCredentials: true,
         }
       );
-      if (response2.data.length > 0) {
-        const all_uris = response2.data.map((i, index) => {
-          return i.uri;
-        });
+      const events = response2.data;
+      console.log(events);
+      const startTimes = events.map((event) => event.start_time);
+      const eventGuests = events.map(
+        (event, index) => event.event_guests?.[index]?.email || "no email"
+      );
+      const locations = events.map((event) => event.location.join_url);
+      const names = events.map((event) => event.name);
+
+      setstarttime(startTimes);
+      seteventguest(eventGuests);
+      setlocation(locations);
+      setname(names);
+      /* if (response2.data.length > 0) {
+        const all_uris = response2.data.map((i, index) => i.uri);
         const uri_id = all_uris.map((i) => i.split("/").reverse()[0]);
         const new_response = await axios.post(
           "http://localhost:1104/get-invitee-name",
@@ -49,20 +67,36 @@ const OAuth_return = () => {
           }
         );
         setnewresponse(new_response.data.flat());
-      }
+      } */
     };
+
     newdata();
   }, [token]);
 
   useEffect(() => {
-    if (newresponse.length > 0) {
+    console.log(` name : ${name}`);
+    console.log(location);
+    console.log(eventguest);
+    console.log(starttime);
+  }, [name, location, eventguest, starttime]);
+
+  useEffect(() => {
+    if (
+      name.length > 0 &&
+      location.length > 0 &&
+      eventguest.length > 0 &&
+      starttime.length > 0
+    ) {
       navigate("/teacher-dashboard", {
         state: {
-          response: newresponse,
+          name: name,
+          location: location,
+          eventguest: eventguest,
+          starttime: starttime,
         },
       });
     }
-  }, [newresponse, navigate]);
+  }, [name, location, eventguest, starttime]);
   return <div>hello</div>;
 };
 
