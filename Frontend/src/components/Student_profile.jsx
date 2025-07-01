@@ -12,7 +12,7 @@ const Student_profile = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get("http://localhost:1104/get-skills", {
+      const response = await axios.get("http://localhost:5000/get-skills", {
         withCredentials: true,
       });
       setSkills(response.data.skills_arr);

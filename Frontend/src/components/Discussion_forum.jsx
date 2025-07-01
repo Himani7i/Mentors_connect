@@ -7,7 +7,7 @@ const Discussion_forum = () => {
   const navigate = useNavigate();
   const handle_click = async () => {
     const response = await axios.post(
-      "http://localhost:1104/validation-for-forum",
+      "http://localhost:5000/validation-for-forum",
       {
         query,
       },

@@ -10,7 +10,7 @@ const StudentLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await axios.post(
-      "http://localhost:1104/student-login",
+      "http://localhost:5000/student-login",
       {
         email,
         password,

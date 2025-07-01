@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:1104");
+const socket = io("http://localhost:5000");
 
 const Message = () => {
   const [messages, setMessages] = useState([]);
@@ -20,7 +20,7 @@ const Message = () => {
   useEffect(() => {
     const check_cookie = async () => {
       const response = await axios.post(
-        "http://localhost:1104/check-cookie",
+        "http://localhost:5000/check-cookie",
         {},
         {
           withCredentials: true,
@@ -34,7 +34,7 @@ const Message = () => {
       }
     };
     const fetchmessage = async () => {
-      const response = await axios.get("http://localhost:1104/get-messages", {
+      const response = await axios.get("http://localhost:5000/get-messages", {
         withCredentials: true,
       });
 
@@ -46,7 +46,7 @@ const Message = () => {
   useEffect(() => {
     const response = async () => {
       const userinfo = await axios.post(
-        "http://localhost:1104/info-for-message",
+        "http://localhost:5000/info-for-message",
         {},
         {
           withCredentials: true,
