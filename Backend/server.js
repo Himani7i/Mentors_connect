@@ -38,7 +38,6 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-
 // connection of mongoose
 const Mongoose_key = process.env.Mongoose_key;
 mongoose.connect(Mongoose_key);
@@ -108,6 +107,8 @@ app.post("/student-login", async (req, res) => {
     const email_token = jwt.sign({ email }, jwtpassword);
     res.cookie("user_token", email_token, {
       maxAge: 1450 * 60 * 1000,
+      sameSite: "None",
+      secure: true,
     });
     res.send(true);
   } else {
@@ -191,6 +192,8 @@ app.post("/teacher-login", async (req, res) => {
     const email_token = jwt.sign(email, jwtpassword);
     res.cookie("teacher_token", email_token, {
       maxAge: 1450 * 1000 * 60,
+      sameSite: "None",
+      secure: true,
     });
     res.send(true);
   } else {
