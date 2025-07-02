@@ -27,7 +27,7 @@ const TeacherDashboard = ({ username }) => {
       console.log(datas);
     } else {
       const client_id = "SB89ab0H8j1KN6SyrR7dY8C2yBOdvILuLvPbFoDrd_k";
-      const redirectUri = "http://localhost:5173/auth/callback";
+      const redirectUri = "https://mentors-connect.vercel.app/auth/callback";
       const responseType = "code";
       //const oauthUrl = `https://auth.calendly.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
       window.location.href =
