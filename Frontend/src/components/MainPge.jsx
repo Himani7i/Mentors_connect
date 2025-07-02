@@ -53,7 +53,7 @@ export default function MainPage() {
   useEffect(() => {
     const cookie_check = async () => {
       const response = await axios.get(
-        "http://localhost:5000/check-student-cookie",
+        "https://mentors-connect.onrender.com/check-student-cookie",
         {
           withCredentials: true,
         }
@@ -67,7 +67,7 @@ export default function MainPage() {
   useEffect(() => {
     const cookie_check = async () => {
       const response = await axios.get(
-        "http://localhost:5000/check-teacher-cookie",
+        "https://mentors-connect.onrender.com/check-teacher-cookie",
         {
           withCredentials: true,
         }

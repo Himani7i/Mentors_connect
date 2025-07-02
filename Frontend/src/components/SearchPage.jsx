@@ -10,7 +10,7 @@ const SearchPage = () => {
   useEffect(() => {
     const check_cookie = async () => {
       const response = await axios.post(
-        "http://localhost:5000/check-cookie",
+        "https://mentors-connect.onrender.com/check-cookie",
         {},
         {
           withCredentials: true,
@@ -26,7 +26,7 @@ const SearchPage = () => {
 
     const getList = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/mentors");
+        const response = await axios.get("https://mentors-connect.onrender.com/mentors");
         setMentors(response.data);
       } catch (error) {
         console.error("Error fetching mentors:", error);

@@ -22,7 +22,7 @@ const PdfUpload = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/upload",
+        "https://mentors-connect.onrender.com/upload",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

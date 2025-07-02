@@ -7,7 +7,7 @@ const Discussion_forum = () => {
   const navigate = useNavigate();
   const handle_click = async () => {
     const response = await axios.post(
-      "http://localhost:5000/validation-for-forum",
+      "https://mentors-connect.onrender.com/validation-for-forum",
       {
         query,
       },

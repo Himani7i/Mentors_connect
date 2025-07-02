@@ -10,7 +10,7 @@ const TeacherLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await axios.post(
-      "http://localhost:5000/teacher-login",
+      "https://mentors-connect.onrender.com/teacher-login",
       {
         email,
         password,

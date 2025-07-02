@@ -17,10 +17,12 @@ const port = process.env.port || 3000;
 const app = express();
 const jwtpassword = process.env.jwtpassword;
 const server = http.createServer(app);
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(
+  cors({ origin: "https://mentors-connect.vercel.app/", credentials: true })
+);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://mentors-connect.vercel.app/",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -33,7 +35,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend origin
+    origin: "https://mentors-connect.vercel.app/", // your frontend origin
     credentials: true,
   })
 );
@@ -406,7 +408,7 @@ app.get("/get-info", async (req, res) => {
 
 app.post("/get-upcoming-events", async (req, res) => {
   const tokens = req.body.token;
-  const ownerlink = req.body.ownerlink ;
+  const ownerlink = req.body.ownerlink;
   console.log(tokens);
   const response = await axios.get(
     "https://api.calendly.com/scheduled_events",
@@ -415,7 +417,7 @@ app.post("/get-upcoming-events", async (req, res) => {
         Authorization: `Bearer ${tokens}`,
       },
       params: {
-        user: ownerlink ,
+        user: ownerlink,
         sort: "start_time:asc",
         status: "active",
       },
@@ -477,7 +479,7 @@ app.post("/get-data_OAuth", async (req, res) => {
   const code = req.body.code;
   const client_id = process.env.client_id;
   const client_secret = process.env.client_secret;
-  const redirect_uri = "http://localhost:5173/auth/callback";
+  const redirect_uri = "https://mentors-connect.vercel.app//auth/callback";
 
   try {
     const formdata = new URLSearchParams();
