@@ -50,7 +50,7 @@ export default function Chatbot() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type a message..."
-          className="flex-1 p-2 border rounded-lg "
+          className="flex-1 p-2 border rounded-lg text-black"
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
         <button
