@@ -29,12 +29,12 @@ export default function Chatbot() {
 
     /* is code ka database se koi lena dena nahi haib */
     <div className="flex flex-col h-200 w-200 m-auto bg-gray-200 p-4 outline-solid mt-8 roundedlgg ">
-      <div className="flex-1 overflow-auto ">
+      <div className="flex-1 overflow-auto break-words">
         {messages.map((msg, index) => (
           <div
 
             key={index}
-            className={`max-w-90 p-3 mb-8 rounded-lg text-md ${
+            className={`max-w-90 p-3 mb-8 rounded-lg text-md break-words${
               msg.sender === "user"
                 ? "bg-blue-500 text-white ml-auto"
                 : "bg-gray-300 text-gray-800 mr-auto"
