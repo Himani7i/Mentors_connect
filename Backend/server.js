@@ -18,11 +18,15 @@ const app = express();
 const jwtpassword = process.env.jwtpassword;
 const server = http.createServer(app);
 app.use(
-  cors({ origin: "https://mentors-connect.vercel.app/", credentials: true })
+  cors({
+    origin: "https://mentors-connect.vercel.app",
+    credentials: true,
+  })
 );
+
 const io = new Server(server, {
   cors: {
-    origin: "https://mentors-connect.vercel.app/",
+    origin: "https://mentors-connect.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -33,12 +37,7 @@ const io = new Server(server, {
 app.use(express.json());
 
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: "https://mentors-connect.vercel.app/", // your frontend origin
-    credentials: true,
-  })
-);
+
 
 // connection of mongoose
 const Mongoose_key = process.env.Mongoose_key;
@@ -479,7 +478,7 @@ app.post("/get-data_OAuth", async (req, res) => {
   const code = req.body.code;
   const client_id = process.env.client_id;
   const client_secret = process.env.client_secret;
-  const redirect_uri = "https://mentors-connect.vercel.app//auth/callback";
+  const redirect_uri = "https://mentors-connect.vercel.app/auth/callback";
 
   try {
     const formdata = new URLSearchParams();
