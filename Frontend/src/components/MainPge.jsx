@@ -13,11 +13,11 @@ export default function MainPage() {
     { title: "Our Mentors", href: "/mentors" },
     {
       title: "About",
-      href: "/about",
+      href: "/",
       dropdown: [
-        { title: "Our Mission", href: "/mission" },
-        { title: "Our Vision", href: "/vision" },
-        { title: "How It Works", href: "/process" },
+        { title: "Our Mission", href: "/" },
+        { title: "Our Vision", href: "/" },
+        { title: "How It Works", href: "/workings" },
       ],
     },
     { title: "Discussion Forum", href: "/discussion-forum" },
@@ -53,7 +53,7 @@ export default function MainPage() {
   useEffect(() => {
     const cookie_check = async () => {
       const response = await axios.get(
-        "https://mentors-connect.onrender.com/check-student-cookie",
+        "https://mentors-connect-2.onrender.com/check-student-cookie",
         {
           withCredentials: true,
         }
@@ -67,7 +67,7 @@ export default function MainPage() {
   useEffect(() => {
     const cookie_check = async () => {
       const response = await axios.get(
-        "https://mentors-connect.onrender.com/check-teacher-cookie",
+        "https://mentors-connect-2.onrender.com/check-teacher-cookie",
         {
           withCredentials: true,
         }

@@ -12,7 +12,7 @@ const Student_profile = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get("https://mentors-connect.onrender.com/get-skills", {
+      const response = await axios.get("https://mentors-connect-2.onrender.com/get-skills", {
         withCredentials: true,
       });
       setSkills(response.data.skills_arr);

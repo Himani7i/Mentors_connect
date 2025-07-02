@@ -19,7 +19,7 @@ const ProfileCard = ({
   const [meeturl, setmeeturl] = useState(null);
   const handlebutton = async (e) => {
     e.preventDefault();
-    const response = await axios.post("https://mentors-connect.onrender.com/schedule-meet", {
+    const response = await axios.post("https://mentors-connect-2.onrender.com/schedule-meet", {
       email,
     });
     setmeeturl(response.data);

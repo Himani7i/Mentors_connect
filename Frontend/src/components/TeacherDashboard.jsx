@@ -40,7 +40,7 @@ const TeacherDashboard = ({ username }) => {
 
   useEffect(() => {
     const data = async () => {
-      const response = await axios.get("https://mentors-connect.onrender.com/get-info", {
+      const response = await axios.get("https://mentors-connect-2.onrender.com/get-info", {
         withCredentials: true,
       });
       setname(response.data.name);

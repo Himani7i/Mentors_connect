@@ -40,6 +40,7 @@ function App() {
           <Route path = "/discussion-forum" element=<Discussion_forum /> />
           <Route path = "/schedule-meets" element=<Schedule_meet/> />
           <Route path = "/auth/callback" element=<OAuth_return/> />
+          <Route path = "/workings" element=<How_it_works /> />
           <Route
             path="/teacher-dashboard"
             element={<TeacherDashboard username={"Rahul"} />}
