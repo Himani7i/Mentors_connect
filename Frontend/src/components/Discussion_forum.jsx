@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { BrowserRouter, href, Route, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect } from "react";
 
 const Discussion_forum = () => {
   const [query, setquery] = useState("");
   const navigate = useNavigate();
   const handle_click = async () => {
     const response = await axios.post(
-      "https://mentors-connect-2.onrender.com/validation-for-forum",
+      "http://localhost:5000/validation-for-forum",
       {
         query,
       },
@@ -24,6 +25,9 @@ const Discussion_forum = () => {
     }
     console.log(response.data);
   };
+  useEffect(()=>{
+    alert("Only available forum is 'Mernstack' ") ;
+  },[]) 
 
   return (
     <div className=" ">

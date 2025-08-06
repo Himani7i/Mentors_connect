@@ -14,7 +14,7 @@ export default function Chatbot() {
     const userMessage = { text: input, sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
-    const response = await axios.post("https://mentors-connect-2.onrender.com/chat-bot" , {
+    const response = await axios.post("http://localhost:5000/chat-bot" , {
         query : input ,
     } , {
       withCredentials : true

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-const socket = io("https://mentors-connect-2.onrender.com");
+const socket = io("http://localhost:5000");
 
 const Message = () => {
   const [messages, setMessages] = useState([]);
@@ -20,7 +20,7 @@ const Message = () => {
   useEffect(() => {
     const check_cookie = async () => {
       const response = await axios.post(
-        "https://mentors-connect-2.onrender.com/check-cookie",
+        "http://localhost:5000/check-cookie",
         {},
         {
           withCredentials: true,
@@ -34,7 +34,7 @@ const Message = () => {
       }
     };
     const fetchmessage = async () => {
-      const response = await axios.get("https://mentors-connect-2.onrender.com/get-messages", {
+      const response = await axios.get("http://localhost:5000/get-messages", {
         withCredentials: true,
       });
 
@@ -46,7 +46,7 @@ const Message = () => {
   useEffect(() => {
     const response = async () => {
       const userinfo = await axios.post(
-        "https://mentors-connect-2.onrender.com/info-for-message",
+        "http://localhost:5000/info-for-message",
         {},
         {
           withCredentials: true,

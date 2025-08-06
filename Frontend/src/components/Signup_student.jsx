@@ -14,7 +14,7 @@ export default function Signup_student() {
   // ye function axios request bhej raha hai
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("https://mentors-connect-2.onrender.com/sign-up-student", {
+    const response = await axios.post("http://localhost:5000/sign-up-student", {
       name,
       email,
       password,
