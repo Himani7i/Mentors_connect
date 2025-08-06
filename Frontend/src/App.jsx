@@ -17,6 +17,7 @@ import Message from "./components/Message";
 import Discussion_forum from "./components/Discussion_forum";
 import Schedule_meet from "./components/Schedule_meet";
 import OAuth_return from "./components/OAuth_return";
+import AdminPanel from "./components/AdminPanel";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path = "/auth/callback" element=<OAuth_return/> />
           <Route path = "/workings" element=<How_it_works /> />
           <Route path="/teacher-dashboard" element={<TeacherDashboard username={"Rahul"} />} />
+          <Route path="/admin-panel" element={<AdminPanel />} />
         </Routes>
       </BrowserRouter>
     </>

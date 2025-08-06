@@ -13,6 +13,9 @@ export default function Signup_student() {
 
   // ye function axios request bhej raha hai
   const handleSubmit = async (e) => {
+    useEffect(()=>{
+        alert("before submitting , dont forget to add your skills") ;
+      },[]) 
     e.preventDefault();
     const response = await axios.post("http://localhost:5000/sign-up-student", {
       name,

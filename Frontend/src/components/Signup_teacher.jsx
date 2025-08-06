@@ -15,6 +15,7 @@ export default function Signup_teacher() {
 
   /* ye function axios request bhej raha hai */
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
     const response = await axios.post("http://localhost:5000/sign-up-teacher", {
       name,
