@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose, { Schema } from "mongoose";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import cors from "cors";
 import { type } from "os";
 import jwt from "jsonwebtoken";
@@ -19,14 +19,14 @@ const jwtpassword = process.env.jwtpassword;
 const server = http.createServer(app);
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:4000",
     credentials: true,
   })
 );
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:4000",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -207,15 +207,20 @@ const aiMessage = mongoose.model("AiMessages", {
   email: String,
   prompt: String,
   airesponse: String,
-});
+}); 
 
-const myAi = new GoogleGenerativeAI("AIzaSyB_rnCww1bvBXTVNRNK87tIJlrYAylykW0");
+
+const myAi = new GoogleGenAI({ apiKey: "AIzaSyAjvqX66OMZOn9h_quZoTmmVbV5_lzdPlU" });
+
 async function generateResponse(query) {
-  const prompt = query;
-  const model = myAi.getGenerativeModel({ model: "gemini-1.5-flash" });
-  const result = await model.generateContent(prompt);
-  return result;
+  const model = myAi.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use valid model name
+  const result = await model.generateContent({
+    contents: [{ role: "user", parts: [{ text: query }] }]
+  });
+  const response = await result.response;
+  return response.text();
 }
+
 app.post("/chat-bot", async (req, res) => {
   const query = req.body.query;
   const token = req.cookies.user_token;
@@ -224,14 +229,15 @@ app.post("/chat-bot", async (req, res) => {
     const decoded_email = decode_token.email;
     let all_query = "";
     all_query += query + "\n";
-    const result = await generateResponse(all_query);
+    const result = await generateResponse(query);
+    console.log(result);
     const newchat = new aiMessage({
       email: decoded_email,
       prompt: query,
-      airesponse: result.response.text(),
+      airesponse: result,
     });
     newchat.save();
-    res.send(result.response.text());
+    res.send(result);
   } else {
     res.send("error");
   }
