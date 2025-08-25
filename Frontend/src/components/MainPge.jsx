@@ -36,18 +36,18 @@ export default function MainPage() {
             ],
           }
       : showDashboardSymbol
-      ? {
-          title: "Teachers dashboard",
-          href: "/teacher-dashboard  ",
-        }
-      : {
-          title: "Login",
-          href: "#",
-          dropdown: [
-            { title: "Login as Mentor", href: "/teacher-login" },
-            { title: "Login as Mentee", href: "/student-login" },
-          ],
-        },
+        ? {
+            title: "Teachers dashboard",
+            href: "/teacher-dashboard  ",
+          }
+        : {
+            title: "Login",
+            href: "#",
+            dropdown: [
+              { title: "Login as Mentor", href: "/teacher-login" },
+              { title: "Login as Mentee", href: "/student-login" },
+            ],
+          },
   ];
 
   useEffect(() => {
@@ -82,23 +82,23 @@ export default function MainPage() {
     <>
       {/* is code ka database se koi lena dena nahi hai  */}
       <div className={showLogin ? "blur-sm" : ""}>
-        <nav className="bg-blue-600 to-indigo-700 text-white py-4 px-8 flex justify-between items-center shadow-lg">
-          <h1 className="text-3xl font-bold flex items-center">
-            <span className="mr-2">🔗</span> Mentor Connect
+        <nav className="bg-600 to-indigo-700 text-white py-8 px-8 flex justify-between items-center shadow-lg">
+          <h1 className="text-5xl font-bold flex items-center ">
+            <span className="mr-2 ">🔗</span> Mentor Connect
           </h1>
           <ul className="flex gap-6">
             {navItems.map((item, index) => (
               <li key={index} className="relative group">
                 <Link
                   to={item.href}
-                  className="hover:bg-white hover:text-indigo-700 transition-all px-4 py-2 rounded-lg font-medium"
+                  className="hover:bg-white hover:text-gray-700 transition-all px-4 py-2 rounded-lg font-medium text-2xl"
                 >
                   {item.title}
                 </Link>
                 {item.dropdown && (
-                  <ul className="absolute -left-10 mt-2 bg-white text-gray-800 shadow-xl rounded-lg hidden group-hover:block w-48 border-t-4 border-indigo-500 overflow-hidden z-50">
+                  <ul className="absolute -left-10 mt-2 bg-white  text-gray-800 shadow-xl rounded-lg hidden group-hover:block w-48 border-t-4 border-indigo-500 overflow-hidden z-50">
                     {item.dropdown.map((subItem, subIndex) => (
-                      <li key={subIndex} className="hover:bg-indigo-50">
+                      <li key={subIndex} className="hover:bg-indigo-50 text-lg font-light">
                         <Link
                           to={subItem.href}
                           className="block w-full py-3 px-4 text-left hover:text-indigo-700 transition-all"
@@ -113,14 +113,19 @@ export default function MainPage() {
             ))}
           </ul>
         </nav>
-        {/* yaha section use hua hai  */}
-        <section className="dark:bg-gray-900 min-h-[200px] flex items-center justify-center flex-col px-4 py-16">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-5xl font-bold mb-6 text-white leading-tight">
-              Connecting Mentors and Mentees{" "}
-              <span className="text-indigo-600"></span>
+
+       
+        <section
+          className="relative h-200 flex items-center justify-center px-4 py-16 bg-cover bg-center"
+          style={{ backgroundImage: `url('/sectionBigImage.jpeg')` }}
+        >
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+          <div className="relative z-10 max-w-4xl mx-auto text-center">
+            <h2 className="text-5xl font-extrabold mb-6 text-white leading-tight">
+              Connecting Mentors and Mentees
             </h2>
-            <p className="text-xl text-gray-600 mb-10 max-w-3xl mx-auto">
+            <p className="text-2xl text-gray-100 mb-10 max-w-3xl mx-auto font-light">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
               magnam dicta dolorem architecto? Placeat obcaecati sed commodi
               minima, eum deserunt!
@@ -131,7 +136,7 @@ export default function MainPage() {
                   <HoverBorderGradient
                     containerClassName="rounded-full"
                     as="button"
-                    className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x "
+                    className="dark:bg-black text-xl   bg-white text-black dark:text-white flex items-center space-x"
                   >
                     <span>Sign up for free</span>
                   </HoverBorderGradient>
@@ -152,8 +157,8 @@ export default function MainPage() {
           to="/chat-bot"
           className="fixed bottom-6 right-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group animate-pulse hover:animate-none"
         >
-          <span className="mr-2 group-hover:mr-3 transition-all">💬</span>
-          <span className="hidden group-hover:inline transition-all">
+          <span className="mr-2 group-hover:mr-3 transition-all text-2xl">💬</span>
+          <span className="hidden text-2xl font-bold group-hover:inline transition-all">
             AI Assistant
           </span>
         </Link>

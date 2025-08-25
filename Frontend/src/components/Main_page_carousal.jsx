@@ -10,7 +10,7 @@ export function Main_page_carousal() {
 
   return (
     <div className="w-full py-20">
-      <h2 className="max-w-7xl mx-auto text-xl md:text-5xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
+      <h2 className="max-w-7xl mx-auto text-3xl md:text-6xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
         Features
       </h2>
       <Carousel items={cards} />
@@ -133,7 +133,7 @@ const DummyContent5 = () => {
   return (
     <>
       <div
-        key={"dummy-content"}
+       key={"dummy-content"}
         className="bg-[#F5F5F7] dark:bg-neutral-800 p-8 md:p-14 rounded-3xl mb-4"
       >
         <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl mx-auto">

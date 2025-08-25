@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose, { Schema } from "mongoose";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import cors from "cors";
 import { type } from "os";
 import jwt from "jsonwebtoken";
@@ -19,14 +19,14 @@ const jwtpassword = process.env.jwtpassword;
 const server = http.createServer(app);
 app.use(
   cors({
-    origin: "http://localhost:4000",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:4000",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -197,7 +197,7 @@ app.post("/teacher-login", async (req, res) => {
     });
     res.send(true);
   } else {
-    res.send(false);  
+    res.send(false);
   }
 });
 
@@ -207,15 +207,15 @@ const aiMessage = mongoose.model("AiMessages", {
   email: String,
   prompt: String,
   airesponse: String,
-}); 
+});
 
-
-const myAi = new GoogleGenAI({ apiKey: "AIzaSyAjvqX66OMZOn9h_quZoTmmVbV5_lzdPlU" });
+const myAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 async function generateResponse(query) {
-  const model = myAi.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use valid model name
+  const model = myAi.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const prompt = `Explain the following text like a friendly mentor teaching a beginner programmer. Make the explanation clear, simple, and encouraging. Use short paragraphs and bullet points where helpful. Avoid using markdown formatting like bold or backticks. Keep the tone warm and motivating, and include a brief intro, key points, and future possibilities. Limit the response to around 150 words. use appropriate line breaks for better readability. dont use "*" . keep it clean and readable. follow chatgpt like formatting for the answer.keep proper spacing and line breaks. use appropriate emojis to make it more interactive. explain the context in a professioal mentor tone. use arrows in a required place , mark bold the important terms . If the user is asking is it right to learn a specific skill , motivate him/her with the exopected time to learn , prerequisites and expected stipend or salary . here is the Text to explain: ${query} `;
   const result = await model.generateContent({
-    contents: [{ role: "user", parts: [{ text: query }] }]
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
   });
   const response = await result.response;
   return response.text();
@@ -230,7 +230,6 @@ app.post("/chat-bot", async (req, res) => {
     let all_query = "";
     all_query += query + "\n";
     const result = await generateResponse(query);
-    console.log(result);
     const newchat = new aiMessage({
       email: decoded_email,
       prompt: query,
@@ -243,6 +242,19 @@ app.post("/chat-bot", async (req, res) => {
   }
 });
 
+// chatbot review
+
+app.get("/review", async (req, res) => {
+  const token = req.cookies.user_token;
+  if (token) {
+    const decode_token = jwt.decode(token);
+    const decoded_email = decode_token.email;
+    const user = await Students.findOne({ email: decoded_email });
+    res.send(user);
+  } else {
+    res.send("error , login as student first , Wait ....are you impostor ?");
+  }
+});
 // predict placement
 /* {
   app.post("/predict", (req, res) => {
@@ -276,7 +288,6 @@ app.get("/get-skills", async (req, res) => {
     const decoded_token = jwt.decode(token);
     const decoded_email = decoded_token.email;
     const user = await Students.findOne({ email: decoded_email });
-    console.log(user);
     res.send(user);
   } else {
     res.send("error , login first");
@@ -353,9 +364,7 @@ io.on("connection", (socket) => {
     }
   );
 
-  socket.on("disconnect", () => {
-    console.log(" Client disconnected:", socket.id);
-  });
+  socket.on("disconnect", () => {});
 });
 
 app.get("/get-messages", async (req, res) => {
@@ -394,6 +403,16 @@ server.listen(port, () => {
   console.log(`server connected successfully on ${port}`);
 });
 
+// logout
+app.get("/student-logout", (req, res) => {
+  const cookie = req.cookies.user_token;
+  if (cookie) {
+    res.clearCookie("user_token");
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
 // teachers dashboard
 app.get("/get-info", async (req, res) => {
   const token = req.cookies.teacher_token;
@@ -417,7 +436,6 @@ app.get("/get-info", async (req, res) => {
 app.post("/get-upcoming-events", async (req, res) => {
   const tokens = req.body.token;
   const ownerlink = req.body.ownerlink;
-  console.log(tokens);
   const response = await axios.get(
     "https://api.calendly.com/scheduled_events",
     {
@@ -475,7 +493,6 @@ app.get("/check-student-cookie", (req, res) => {
 
 app.get("/check-teacher-cookie", (req, res) => {
   const teacher_token = req.cookies.teacher_token;
-  console.log(teacher_token);
   if (teacher_token) {
     res.send("true");
   } else {
@@ -496,7 +513,6 @@ app.post("/get-data_OAuth", async (req, res) => {
     formdata.append("client_secret", client_secret);
     formdata.append("redirect_uri", redirect_uri);
     formdata.append("grant_type", "authorization_code");
-
     const response = await axios.post(
       "https://auth.calendly.com/oauth/token",
       formdata,
@@ -506,6 +522,7 @@ app.post("/get-data_OAuth", async (req, res) => {
         },
       }
     );
+    console.log("Token exchange successful:", response.data);
     res.json(response.data);
   } catch (error) {
     console.error(

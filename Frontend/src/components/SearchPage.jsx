@@ -37,17 +37,17 @@ const SearchPage = () => {
 
   return (
     /* code upload krne ke liye  */
-    <div className="bg-gray-900">
+    <div className="bg-gray-900 ">
       <div className="flex justify-between h-20 items-center px-6">
         <h1
-          className="text-4xl font-bold text-white ml-3 border-b-2 "
+          className="text-6xl font-bold mt-6 text-white ml-3 border-b-2 "
           style={{ fontFamily: "Peralta, sans-serif" }}
         >
           List of Mentors
         </h1>
       </div>
 
-      <div className=" flex flex-wrap">
+      <div className=" flex flex-wrap mt-8">
         {mentors.length > 0 ? (
           mentors.map((i) => (
             <ProfileCard

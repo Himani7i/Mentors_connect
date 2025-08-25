@@ -28,32 +28,32 @@ const StudentLogin = () => {
   };
   return (
     /* code upload krne ke liye  */
-    <div className="flex justify-center items-center h-screen bg-gray-700">
-      <div className=" p-6 rounded-lg shadow-md w-80 bg-gray-900">
-        <h2 className="text-xl font-semibold text-blue-200 text-center mb-4">
+    <div className="flex justify-center items-center h-screen bg-gray-700 ">
+      <div className=" p-6 rounded-lg shadow-md w-120 h-100 bg-gray-900 outline-2 outline-white">
+        <h2 className="text-4xl font-semibold text-blue-200 text-center mb-15">
           Student Login
         </h2>
-        <form className="space-y-4  ">
+        <form className="space-y-8"> 
           <input
             type="email"
             placeholder="your@email.com"
             onChange={(e) => setemail(e.target.value)}
-            className="w-full p-2 border rounded-lg focus:ring-2 text-blue-200 focus:ring-indigo-400 outline-none"
+            className="w-full p-2 border text-xl rounded-lg focus:ring-2 text-blue-200 focus:ring-indigo-400 outline-none"
           />
           <input
             type="password"
             placeholder="••••••••"
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border rounded-lg focus:ring-2 text-blue-200 focus:ring-indigo-400 outline-none"
+            className="w-full p-2 border text-xl rounded-lg focus:ring-2 text-blue-200 focus:ring-indigo-400 outline-none"
           />
           <button
-            className="w-full bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700 transition"
+            className="w-full bg-indigo-600 text-xl text-white p-2 rounded-lg hover:bg-indigo-700 transition"
             onClick={handleSubmit}
           >
             Sign In
           </button>
         </form>
-        <p className="text-sm text-center mt-4 text-gray-600">
+        <p className="text-lg  text-center mt-4 text-gray-600">
           Don't have an account?{" "}
           <Link to="/sign-up-student" className="text-blue-600">
             Sign up

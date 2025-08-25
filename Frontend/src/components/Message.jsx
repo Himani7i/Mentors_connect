@@ -7,7 +7,7 @@ const Message = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [user, setUser] = useState("");
-  const [isOn, setIsOn] = useState(false);
+  const [isOn, setIsOn] = useState(true);
 
   const roomId = "mern-stack";
 
@@ -79,7 +79,7 @@ const Message = () => {
 
   return (
     <div
-      className={`flex flex-col max-w-3xl mx-auto h-screen px-6 py-4 ${
+      className={`flex  flex-col max-w-3xl mx-auto h-screen px-6 py-4 ${
         isOn ? "bg-[#0d0d0d]" : "bg-gray-800  "
       } text-white rounded-xl shadow-xl font-sans`}
     >
@@ -97,7 +97,7 @@ const Message = () => {
 
           {/* sun icon */}
           <svg
-            className="swap-off h-10 w-10 fill-black"
+            className="swap-off h-10 w-10 fill-white"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -116,23 +116,23 @@ const Message = () => {
       </div>
 
       <div
-        className={`flex-1 overflow-y-auto space-y-4 p-5 ${
+        className={`flex-1 overflow-y-auto overflow-x-auto space-y-4  p-5 ${
           isOn ? "bg-[#111111]" : "bg-blue-200"
         } rounded-2xl border border-[#1a1a1a] shadow-inner backdrop-blur-md scrollbar-thin scrollbar-thumb-cyan-500 scrollbar-track-transparent`}
       >
         {messages.map((msg, index) => (
           <div
             key={index}
-            className="flex items-start gap-4 bg-[#1a1a1a] p-4 rounded-xl hover:scale-[1.01] transition-transform duration-150 shadow-md max-w-fit"
+            className="flex items-start gap-4 bg-[#1a1a1a] p-4 rounded-xl hover:scale-[1.01] transition-transform duration-150 shadow-md max-w-fit max-h-fit"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold uppercase shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold uppercase shadow-lg">
               {msg.sender?.[0] || "?"}
             </div>
             <div className="flex flex-col">
-              <span className="text-cyan-300 font-semibold text-sm tracking-wide">
+              <span className="text-cyan-300 font-semibold text-md tracking-wide">
                 {msg.sender}
               </span>
-              <p className="text-white mt-1 text-base overflow-wrap">
+              <p className="text-white mt-1 text-md break-all ma text-base overflow-wrap max-w-lg">
                 {msg.text}
               </p>
             </div>
@@ -168,3 +168,4 @@ const Message = () => {
 };
 
 export default Message;
+     

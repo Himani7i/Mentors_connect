@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 const TeacherDashboard = ({ username }) => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
@@ -20,14 +21,18 @@ const TeacherDashboard = ({ username }) => {
 
   const location = useLocation();
 
+  const handleclick = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     const datas = location.state || null;
     if (datas) {
       setdata(datas);
       console.log(datas);
     } else {
-      const client_id = "SB89ab0H8j1KN6SyrR7dY8C2yBOdvILuLvPbFoDrd_k";
-      const redirectUri = "https://mentors-connect.vercel.app/auth/callback";
+      const client_id = import.meta.env.VITE_CLIENT_ID;
+      const redirectUri = "http://localhost:5173/auth/callback";
       const responseType = "code";
       //const oauthUrl = `https://auth.calendly.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
       window.location.href =
@@ -55,21 +60,29 @@ const TeacherDashboard = ({ username }) => {
   return (
     <>
       <div className="flex bg-gray-100 ">
-        <div className="w-16 lg:w-64 bg-blue-900 text-white">
-          <div className="p-4 flex items-center justify-center lg:justify-start">
-            <h1 className="hidden lg:block text-xl font-bold">
-              Mentor Connect
+        <div className="w-23 lg:w-64 bg-blue-900 text-white">
+          <div className=" mt-5 flex items-center justify-center lg:justify-start">
+            <h1 className="hidden lg:block text-3xl font-bold">
+              Mentor's Connect
             </h1>
+            <div className="">
+              <button
+                className="bg-red-700 text-white h-10 p-2 rounded-xl cursor-pointer m-5 hover:bg-red-800 "
+                onClick={handleclick}
+              >
+                Home
+              </button>
+            </div>
           </div>
         </div>
         <div className="flex-1 overflow-auto">
           <header className="bg-white shadow-sm">
             <div className="flex justify-between items-center px-4 py-3">
               <div>
-                <h2 className="text-2xl font-semibold text-black">
+                <h2 className="text-3xl font-semibold text-black">
                   Teacher Dashboard
                 </h2>
-                <p className="text-sm text-gray-600">
+                <p className="text-lg text-gray-600">
                   Welcome,{" "}
                   <span className="font-medium text-black">{name}</span>
                 </p>
@@ -79,13 +92,11 @@ const TeacherDashboard = ({ username }) => {
                 <img
                   src={image}
                   alt="Profile"
-                  className="w-15 h-15 rounded-full object-cover border-2 border-white shadow-md"
+                  className="w-22 h-22 rounded-full object-cover border-2 border-black shadow-md"
                 />
                 <div className="flex flex-col">
-                  <p className="text-base font-semibold text-gray-900">
-                    {name}
-                  </p>
-                  <p className="text-sm text-gray-600">{email}</p>
+                  <p className="text-xl font-semibold text-gray-900">{name}</p>
+                  <p className="text-lg text-gray-600">{email}</p>
                 </div>
               </div>
             </div>

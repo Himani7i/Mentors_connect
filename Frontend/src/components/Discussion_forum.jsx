@@ -21,32 +21,36 @@ const Discussion_forum = () => {
       navigate(`/messages-${query}`);
     } else {
       alert("Error! Task failed successfully .");
-      navigate("/student-login")
+      navigate("/student-login");
     }
     console.log(response.data);
   };
-  useEffect(()=>{
-    alert("Only available forum is 'Mernstack' ") ;
-  },[]) 
+  // useEffect(() => {
+  //   alert("Only available forum is 'Mernstack' ");
+  // }, []);
 
   return (
-    <div className=" ">
-      <div className="bg-gray-800 h-screen w-screen flex pt-50 m-auto justify-center gap-5 ">
-        <fieldset className="fieldset">
-          <legend className="fieldset-legend text-2xl">
+    <div className=" justify-center items-center pt-50 h-screen bg-gray-800">
+      <div className="bg-gray-800 h-100 w-200 flex m-auto justify-center border-2 rounded-4xl">
+        <fieldset className="fieldset items-center m-auto ">
+          <legend className="fieldset-legend text-4xl">
             Which room you want to join ?
           </legend>
-          <input
-            type="text"
-            className="input"
-            placeholder="Type here"
-            onChange={(e) => setquery(e.target.value.toLowerCase())}
-          />
-          <p className="label text-md">Please enter a valid roomId</p>
+          <div className=" flex gap-5 mt-5 justify-center">
+            <input
+              type="text"
+              className="input text-xl"
+              placeholder="Type here"
+              onChange={(e) => setquery(e.target.value.toLowerCase())}
+            />
+            <button className="btn " onClick={handle_click}>
+              Join
+            </button>
+          </div>
+          <p className="label text-lg mt-2 ml-11">
+            Please enter a valid roomId
+          </p>
         </fieldset>
-        <button className="btn mt-12" onClick={handle_click}>
-          Join
-        </button>
       </div>
     </div>
   );

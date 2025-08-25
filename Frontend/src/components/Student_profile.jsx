@@ -2,6 +2,7 @@ import axios from "axios";
 import { getDefaultValueType } from "motion/react";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Student_profile = () => {
   const [skills, setSkills] = useState([]);
@@ -9,6 +10,18 @@ const Student_profile = () => {
   const [profession, setProfession] = useState("");
   const [email, setEmail] = useState("");
   const [degree, setDegree] = useState("");
+  const navigate = useNavigate() ;
+
+  const handleclick = async () =>{
+    const response = await axios.get("http://localhost:5000/student-logout",{
+      withCredentials : true
+    }) ;
+    if(response.data == true){
+      navigate("/") ;
+    }else{
+      alert("you are not logged in") ;
+    }
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -29,46 +42,55 @@ const Student_profile = () => {
   }, []);
 
   return (
-    <div className="flex justify-center h-screen w-screen items-center bg-[#271F3F]">
-      <div className="p-5 ml-4 mt-5 flex justify-center ">
-        <div className="bg-white rounded-lg border border-gray-300 w-80">
-          <div className=" rounded-tl-lg rounded-tr-lg flex justify-center p-4 bg-zinc-700">
-            <img
-              className="w-40 h-40 rounded-full object-cover border-b-3 border-white "
-              src="https://media.tenor.com/xRF_8aickxwAAAAM/silly-cat-silly-car.gif"
-            />
-          </div>
-
-          <div className="lowersection bg-gray-900 text-white p-3 rounded-b-lg ">
-            <h1 className="text-gray-300 text-center text-3xl mb-2 font-sans ">
-              {name}
-            </h1>
-            <h1 className="text-gray-300 text-md mb-[1.5px]">
-              Email : {email}
-            </h1>
-            <h1 className="text-gray-300 text-md mb-[1.5px]">
-              Profession : {profession}{" "}
-            </h1>
-            <h1 className="text-gray-300 text-md mb-2">Degree : {degree} </h1>
-            <div className="flex justify-center mt-2 mb-3"></div>
-
-            <div className="flex flex-wrap gap-2">
-              {skills.length > 0 ? (
-                skills.map((i, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="badge badge-outline badge-accent "
-                    >
-                      {i}
-                    </div>
-                  );
-                })
-              ) : (
-                <div>No skills data found</div>
-              )}
+    <div className="flex bg-[#271F3F] w-screen">
+      <div className="flex justify-end items-start ">
+        <button className="bg-red-700 text-white h-10 p-2 rounded-xl cursor-pointer m-5 hover:bg-red-800 " onClick={handleclick}>
+          Logout
+        </button>
+      </div>
+      <div className="flex justify-center h-screen w-screen items-center ">
+        <div className="p-5 ml-4 mt-5 flex justify-center ">
+          <div className="bg-white rounded-lg border border-gray-300 w-100 ">
+            <div className=" rounded-tl-lg rounded-tr-lg flex justify-center p-4 bg-zinc-700">
+              <img
+                className="w-40 h-40 rounded-full object-cover border-b-3 border-white "
+                src="https://media.tenor.com/xRF_8aickxwAAAAM/silly-cat-silly-car.gif"
+              />
             </div>
-            {/* meet crlo */}
+
+            <div className="lowersection bg-gray-900 text-white p-3 rounded-b-lg ">
+              <h1 className="text-gray-300 text-center text-4xl mb-2 font-sans ">
+                {name}
+              </h1>
+              <h1 className="text-gray-300 text-xl mb-[1.5px]">
+                Email : {email}
+              </h1>
+              <h1 className="text-gray-300 text-xl text-md mb-[1.5px]">
+                Profession : {profession}{" "}
+              </h1>
+              <h1 className="text-gray-300 text-md mb-2 text-xl">
+                Degree : {degree}{" "}
+              </h1>
+              <div className="flex justify-center mt-2 mb-3 text-xl"></div>
+
+              <div className="flex flex-wrap gap-2">
+                {skills.length > 0 ? (
+                  skills.map((i, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="badge badge-outline text-lg badge-accent "
+                      >
+                        {i}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div>No skills data found</div>
+                )}
+              </div>
+              {/* meet crlo */}
+            </div>
           </div>
         </div>
       </div>

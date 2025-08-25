@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useActionState, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const OAuth_return = () => {
@@ -12,6 +12,8 @@ const OAuth_return = () => {
   const [eventguest, seteventguest] = useState([]);
   const [location, setlocation] = useState([]);
   const [name, setname] = useState([]);
+  const [inviteename, setinviteename] = useState([]);
+  const [guestname, setguestname] = useState([]);
 
   useEffect(() => {
     const code = window.location.search;
@@ -26,7 +28,6 @@ const OAuth_return = () => {
       );
       settoken(response.data.access_token);
       setownerlink(response.data.owner);
-      
     };
     data();
   }, []);
@@ -42,36 +43,20 @@ const OAuth_return = () => {
         }
       );
       const events = response2.data;
-      console.log(events) ;
+      console.log(events);
       const startTimes = events.map((event) => event.start_time);
       const eventGuests = events.map(
-        (event, index) => (
-            (event.event_guests?.map((i) => (i.email))) || ["no email"]
-        )
+        (event, index) =>
+          event.event_guests?.map((i) => i.email) || ["no email"]
       );
       const locations = events.map((event) => event.location.join_url);
       const names = events.map((event) => event.name);
-      const starttime = events.map((event) => event.start_time)
+      const starttime = events.map((event) => event.start_time);
       setstarttime(startTimes);
       seteventguest(eventGuests);
       setlocation(locations);
       setname(names);
-      setstarttime(starttime) ;
-      /* if (response2.data.length > 0) {
-        const all_uris = response2.data.map((i, index) => i.uri);
-        const uri_id = all_uris.map((i) => i.split("/").reverse()[0]);
-        const new_response = await axios.post(
-          "http://localhost:5000/get-invitee-name",
-          {
-            uri_id,
-            token,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        setnewresponse(new_response.data.flat());
-      } */
+      setstarttime(starttime);
     };
 
     newdata();
@@ -90,10 +75,12 @@ const OAuth_return = () => {
           location: location,
           eventguest: eventguest,
           starttime: starttime,
+          inviteename: inviteename,
+          guestname: guestname,
         },
       });
     }
-  }, [name, location, eventguest, starttime]);
+  }, [name, location, eventguest, starttime, inviteename, guestname]);
   return <div className="m-auto">wait while we are fetching results</div>;
 };
 
